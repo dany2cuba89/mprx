@@ -1,0 +1,44 @@
+/* Estilo general del modal */
+.modal-overlay {
+  position: fixed;
+  top: 64px; /* Altura del Header para evitar que el modal se pegue */
+  left: 0;
+  width: 100%;
+  height: calc(100% - 64px); /* Altura restante sin contar el Header */
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Alineación desde la parte superior */
+  padding-top: 20px; /* Espaciado adicional */
+  z-index: 9999;
+  overflow-y: auto; /* Habilita scroll si el contenido es alto */
+}
+
+.modal-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  width: 90%; /* Permite adaptarse a pantallas más pequeñas */
+  max-width: 400px;
+  max-height: calc(100% - 40px); /* Máxima altura del modal considerando el espaciado */
+  overflow-y: auto; /* Permite desplazamiento interno si el contenido excede */
+  z-index: 10000;
+}
+
+/* Botón de cierre */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+}
+
+.modal-close:hover {
+  color: #000;
+}

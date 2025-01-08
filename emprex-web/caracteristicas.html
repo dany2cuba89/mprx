@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EmpreX - Características principales de nuestra solución empresarial.">
+  <meta name="keywords" content="EmpreX, características, gestión, inventario, facturación, reportes">
+  <meta name="author" content="EmpreX">
+  <link rel="icon" type="image/png" href="favicon.png"> <!-- Cambia la ruta y el tipo de archivo según tu caso -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <title>Características - EmpreX</title>
+  <style>
+    /* Asegurar que no haya márgenes ni padding en el body y html */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden; /* Evita el desbordamiento horizontal */
+    }
+    /* Animación del botón */
+    .btn-explosive {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease-in-out, box-shadow 0.3s;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    .btn-explosive:active {
+      transform: scale(0.95);
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+    }
+    .particle-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 8px;
+      height: 8px;
+      opacity: 0;
+      animation: particle-move 0.6s ease-out forwards;
+    }
+    @keyframes particle-move {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--move-x), var(--move-y)) scale(0.5);
+        opacity: 0;
+      }
+    }
+    /* Estilos para el botón "Ir arriba" */
+    #scroll-to-top {
+      z-index: 1000; /* Asegura que esté por encima de otros elementos */
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    #scroll-to-top.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #scroll-to-top:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    /* Asegurar que el footer no se superponga */
+    footer {
+      position: relative;
+      z-index: 10;
+    }
+    /* Asegurar que el contenido principal tenga suficiente espacio */
+    main {
+      min-height: calc(100vh - 200px); /* Ajusta según la altura del footer */
+      padding-bottom: 100px; /* Espacio adicional para evitar superposición */
+    }
+    /* Estilos para el menú hamburguesa en móviles */
+    @media (max-width: 767px) {
+      #menu {
+        position: absolute;
+        top: 100%; /* Posiciona el menú debajo del navbar */
+        right: 0;
+        background-color: #065F46;
+        width: 100%;
+        z-index: 1000;
+        display: none; /* Ocultar por defecto */
+        flex-direction: column;
+        align-items: center; /* Centra los elementos horizontalmente */
+        padding: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      #menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra los elementos horizontalmente */
+      }
+      #menu ul li {
+        width: auto; /* Ajusta el ancho al contenido */
+        padding: 1rem 0; /* Espaciado vertical */
+        text-align: center; /* Centra el texto dentro del li */
+      }
+      #menu ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        display: inline-block; /* Permite que el texto se centre correctamente */
+      }
+      #menu ul li a:hover {
+        color: #6EE7B7;
+      }
+      #menu.active {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-900 bg-white">
+  <!-- Navbar -->
+  <nav class="bg-[#065F46] py-4 px-6 flex justify-between items-center relative">
+    <div class="flex items-center">
+      <a href="index.html">
+        <img src="logoblanco.png" alt="Logo de EmpreX" class="h-8 mr-4">
+      </a>
+      <a href="index.html" class="text-white font-bold text-xl">EmpreX</a>
+    </div>
+    <!-- Menú hamburguesa para móviles -->
+    <button id="menu-toggle" class="text-white focus:outline-none md:hidden">
+      <i class="fas fa-bars text-2xl"></i>
+    </button>
+    <!-- Menú de navegación -->
+    <ul id="menu" class="hidden md:flex space-x-6 text-white">
+      <li><a href="index.html" class="hover:text-[#6EE7B7]">Inicio</a></li>
+      <li><a href="caracteristicas.html" class="hover:text-[#6EE7B7]">Características</a></li>
+      <li><a href="historia.html" class="hover:text-[#6EE7B7]">Historia</a></li>
+      <li><a href="#footer" class="hover:text-[#6EE7B7]">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-cover bg-center bg-no-repeat" style="background-image: url('caracteristicas.png');">
+    <div class="bg-black bg-opacity-50 py-16 md:py-24 px-4 md:px-16">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-3xl md:text-6xl font-bold text-white mb-4">Características de EmpreX</h1>
+        <p class="text-base md:text-xl text-gray-300 mb-8">
+          Descubre cómo EmpreX puede ayudarte a optimizar la gestión de tu negocio con nuestras herramientas integrales.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenido principal de la página de características -->
+  <main class="py-12 md:py-20">
+    <div class="container mx-auto px-4">
+      <!-- Sección de características -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Gestión de Inventario -->
+        <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <div class="bg-green-500 p-4 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">Gestión de Inventario</h2>
+          <p class="text-gray-600">
+            Controla niveles de inventario, puntos de reorden y la información de proveedores para mantener un flujo constante de productos.
+          </p>
+        </div>
+
+        <!-- Facturación -->
+        <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <div class="bg-green-500 p-4 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">Facturación</h2>
+          <p class="text-gray-600">
+            Genera facturas de compra y venta, y realiza un seguimiento detallado de pagos para mantener tu negocio al día.
+          </p>
+        </div>
+
+        <!-- APV (Automatización de Procesos de Venta) -->
+        <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <div class="bg-green-500 p-4 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">APV (Automatización de Procesos de Venta)</h2>
+          <p class="text-gray-600">
+            Facilita las ventas manuales o mediante QR directamente desde el inventario, ofreciendo agilidad y precisión en las transacciones.
+          </p>
+        </div>
+
+        <!-- Reportes y Análisis -->
+        <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <div class="bg-green-500 p-4 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">Reportes y Análisis</h2>
+          <p class="text-gray-600">
+            Genera reportes detallados para obtener insights clave sobre ventas, inventario, adquisiciones y más.
+          </p>
+        </div>
+
+        <!-- Nivel de Acceso por Roles -->
+        <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <div class="bg-green-500 p-4 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">Nivel de Acceso por Roles</h2>
+          <p class="text-gray-600">
+            Define roles y permisos para garantizar que cada usuario tenga acceso solo a las funciones que necesita.
+          </p>
+        </div>
+
+        <!-- Gestión de Empleados -->
+        <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <div class="bg-green-500 p-4 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">Gestión de Empleados</h2>
+          <p class="text-gray-600">
+            Administra la información de tus empleados, incluyendo pagos, horarios y beneficios.
+          </p>
+        </div>
+
+        <!-- Gestión de Solicitudes de Compra -->
+        <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <div class="bg-green-500 p-4 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">Gestión de Solicitudes de Compra</h2>
+          <p class="text-gray-600">
+            Gestiona solicitudes de compra a proveedores y genera automáticamente fichas de costo al aprobarse.
+          </p>
+        </div>
+
+        <!-- Recepciones -->
+        <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+          <div class="bg-green-500 p-4 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">Recepciones</h2>
+          <p class="text-gray-600">
+            Registra recepciones de productos y actualiza automáticamente el inventario.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer" class="bg-gray-900 py-8 md:py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+        <!-- About EmpreX -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">EmpreX</h4>
+          <p class="text-sm md:text-base text-gray-400">Optimiza tu negocio con nuestra aplicación integral de gestión.</p>
+          <div class="mt-4">
+          <!-- Íconos de redes sociales comentados -->
+          <!--
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-instagram"></i>
+          </a>
+          -->
+          <!-- Nuevo ícono de WhatsApp -->
+          <a href="https://wa.me/5354588422" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+            <a href="mailto:emprex.dev@gmail.com" class="text-gray-400 hover:text-white">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">Enlaces Rápidos</h4>
+          <ul class="text-gray-400">
+            <li class="mb-2"><a href="index.html" class="hover:text-white">Inicio</a></li>
+            <li class="mb-2"><a href="caracteristicas.html" class="hover:text-white">Características</a></li>
+            <li class="mb-2"><a href="historia.html" class="hover:text-white">Historia</a></li>
+          </ul>
+        </div>
+        <!-- Resources -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">Recursos</h4>
+          <ul class="text-gray-400">
+            <li class="mb-2"><a href="documentacion.html" class="hover:text-white">Documentación</a></li>
+            <li class="mb-2"><a href="preguntasfrecuentes.html" class="hover:text-white">Preguntas Frecuentes</a></li>
+            <li class="mb-2"><a href="soporte.html" class="hover:text-white">Soporte</a></li>
+          </ul>
+        </div>
+        <!-- Newsletter -->
+      <!--
+      <div>
+        <h4 class="text-white font-bold mb-2 md:mb-4">Suscríbete</h4>
+        <p class="text-sm md:text-base text-gray-400 mb-4">Mantente al día con nuestras últimas novedades y actualizaciones.</p>
+        <form>
+          <input type="email" placeholder="Ingresa tu correo" class="bg-gray-800 text-gray-400 py-2 px-4 rounded-l-lg focus:outline-none">
+          <button class="bg-green-500 text-white py-2 px-4 rounded-r-lg hover:bg-green-600">Suscribirse</button>
+        </form>
+      </div>
+      -->
+      </div>
+      <div class="mt-8 border-t border-gray-700 pt-8">
+        <p class="text-sm md:text-base text-gray-400 text-center">© 2024 EmpreX. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botón "Ir arriba" -->
+  <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 opacity-0 hidden transform hover:scale-110">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script>
+    // Menú hamburguesa
+    document.getElementById('menu-toggle')?.addEventListener('click', function () {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('active');
+    });
+
+    // Funcionalidad del botón "Ir arriba"
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollToTopButton.classList.remove('hidden');
+        scrollToTopButton.classList.remove('opacity-0');
+      } else {
+        scrollToTopButton.classList.add('opacity-0');
+        setTimeout(() => {
+          scrollToTopButton.classList.add('hidden');
+        }, 300);
+      }
+    });
+
+    scrollToTopButton?.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+</body>
+</html>

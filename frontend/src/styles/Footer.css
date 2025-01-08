@@ -1,0 +1,10 @@
+.footer {
+  background-color: #000000; /* Color negro */
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 14px;
+  width: 100%;
+  position: relative; /* Cambiado de fixed a relative */
+  margin-top: auto; /* Para mantenerlo al final del contenido */
+}

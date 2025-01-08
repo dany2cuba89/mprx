@@ -1,0 +1,148 @@
+.reportes-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #f2f2f2;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.tab-button.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.tab-button:hover {
+  background-color: #45a049;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* styles.css */
+.tabla-container {
+  overflow-x: auto; /* Habilita el desplazamiento horizontal */
+  -webkit-overflow-scrolling: touch; /* Mejora la experiencia en dispositivos táctiles */
+  //border: 1px solid #ddd; /* Borde alrededor de la tabla */
+  //border-radius: 5px; /* Bordes redondeados para estética */
+  //background-color: #fff; /* Fondo blanco para claridad */
+  margin: 10px 0; /* Espaciado alrededor */
+  padding: 5px; /* Espaciado interno */
+}
+
+table {
+  width: 100%; /* La tabla ocupa todo el contenedor */
+  border-collapse: collapse; /* Evita el doble borde */
+}
+
+th, td {
+  text-align: left; /* Texto alineado a la izquierda */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #ddd; /* Líneas entre celdas */
+  white-space: nowrap; /* Evita el corte de texto */
+}
+
+th {
+  background-color: #f4f4f4; /* Fondo gris claro para encabezados */
+  font-weight: bold; /* Texto en negrita */
+}
+
+@media (max-width: 768px) {
+  th, td {
+    font-size: 14px; /* Reduce el tamaño de la fuente en móviles */
+    padding: 8px; /* Ajusta el espaciado */
+  }
+}
+
+.tipo-select {
+  padding: 5px;
+  font-size: 14px;
+}
+
+
+
+
+
+/* styles.css */
+.tabss {
+  display: none; /* Oculta las pestañas normales en móvil */
+}
+
+.tabss-dropdown {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .tabss {
+    display: flex;
+  }
+
+  .tabss-dropdown {
+    display: none; /* Oculta el menú desplegable en desktop */
+  }
+}
+
+.tabs-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 90%;
+  margin-bottom: 1rem;
+}
+
+.tab-button {
+  min-width: 100px;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  border: none;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tab-button.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.carousel-button {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .tab-button {
+    min-width: 100px;
+    font-size: 0.7rem;
+  }
+
+  .carousel-button {
+    font-size: 1.1rem;
+  }
+}
+.textarea-observaciones {
+  width: 100%; /* Ocupa el 100% del ancho del contenedor */
+  min-height: 100px; /* Altura mínima */
+  resize: none; /* Opcional: Desactiva el cambio de tamaño si no lo deseas */
+  padding: 10px; /* Agrega espacio interno para mejor legibilidad */
+  border: 1px solid #ccc; /* Bordes estéticos */
+  border-radius: 4px; /* Esquinas redondeadas */
+  font-size: 14px; /* Tamaño de fuente adecuado */
+  box-sizing: border-box; /* Incluye padding y bordes en el tamaño total */
+}

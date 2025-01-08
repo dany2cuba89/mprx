@@ -1,0 +1,113 @@
+/* Estilo para diferenciar los modos */
+.modo-busqueda {
+  border: 2px solid #4caf50;
+  background-color: #f0fff0;
+}
+
+.modo-qr {
+  border: 2px solid #2196f3;
+  background-color: #e8f4ff;
+}
+
+/* Resaltado del modo seleccionado */
+.entrada-selector select {
+  font-size: 1rem;
+  padding: 5px;
+}
+
+.caja-container {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+/* En tu archivo Caja.css */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacio entre los campos */
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+  .form-group input {
+    width: 100%; /* Asegura que los campos ocupen todo el ancho en móviles */
+  }
+}
+
+.add-button,
+.register-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-button:hover,
+.register-button:hover {
+  background-color: #45a049;
+}
+
+.total {
+  margin-top: 20px;
+  font-size: 18px;
+  text-align: right;
+}
+.selected-row {
+  background-color: #f0f8ff; /* Color de fondo para la fila seleccionada */
+  color: #333; /* Cambiar el color del texto si es necesario */
+  border-left: 5px solid #4caf50; /* Borde opcional para más visibilidad */
+}
+.detalles-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.columna-detalles {
+  flex: 1;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.columna-detalles p {
+  margin: 0.5rem 0;
+}
+
+/* Estilo general para el select */
+.tabla-container select {
+  width: 100%; /* Toma el ancho completo del contenedor */
+  min-width: 80px; /* Asegura un ancho mínimo */
+  padding: 5px; /* Añade algo de espacio interno */
+  font-size: 14px; /* Asegura que el texto sea legible */
+  border: 1px solid #ddd; /* Estilo consistente con las celdas */
+  border-radius: 4px; /* Bordes redondeados para apariencia moderna */
+}
+
+/* Ajustes específicos para dispositivos móviles */
+@media (max-width: 768px) {
+  .tabla-container select {
+    width: 100%; /* En móviles, siempre ocupa el 100% */
+    font-size: 12px; /* Ajusta el tamaño del texto para pantallas pequeñas */
+  }
+}
+.botones-acciones {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}

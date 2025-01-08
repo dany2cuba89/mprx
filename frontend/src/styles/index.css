@@ -1,0 +1,190 @@
+/* index.css */
+
+/* index.css */
+:root {
+  --header-height: 64px;
+  --footer-height: 50px;
+  
+  --main-background: #f4f4f4;
+  --modal-title-background: #fff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: var(--main-background);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Garantiza que la página ocupe el 100% de la altura */
+  overflow-x: hidden;
+  /* Ajusta el contenido al tamaño de la pantalla */
+}
+
+html {
+  font-size: 16px; /* Tamaño base de la fuente */
+  /* Esto asegura que la escala será proporcional */
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+.main-content {
+  flex: 1; /* Permite que el contenido ocupe todo el espacio disponible */
+  margin-top: var(--header-height);
+  padding-bottom: var(--footer-height); /* Reservamos espacio para el footer */
+}
+
+
+/* Contenedor general */
+.container {
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+
+/* Scrollbar estilizado */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #bbb;
+}
+
+/* Ajustes para el Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo translúcido */
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start; /* Alineación adaptable */
+  justify-content: center;
+  padding-top: var(--header-height);
+  padding-bottom: var(--footer-height);
+}
+
+.modal-container {
+  background-color: var(--main-background); /* Fondo principal */
+  max-width: 800px;
+  width: calc(100vw - 40px);
+  max-height: calc(100vh - var(--header-height) - var(--footer-height) - 40px);
+  display: flex;
+  flex-direction: column; /* Divide en header y contenido */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 16px;
+  border-bottom: 1px solid #ddd; /* Separador visual */
+  background-color: var(--modal-title-background); /* Fondo fijo para el título */
+  z-index: 1; /* Asegura que esté por encima del contenido */
+}
+
+.modal-content {
+  flex: 1; /* Permite que este área ocupe todo el espacio restante */
+  overflow-y: auto; /* Habilita el desplazamiento vertical */
+  padding: 20px;
+}
+
+.modal-footer {
+  padding: 16px;
+  border-top: 1px solid #ddd; /* Separador visual */
+  background-color: var(--modal-title-background); /* Fondo fijo para los botones */
+  z-index: 1; /* Asegura que esté por encima del contenido */
+  text-align: right; /* Alinea los botones a la derecha */
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.modal-close:hover {
+  color: black;
+}
+
+/* Footer ajustes */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: var(--footer-height);
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  z-index: 1000; /* Asegura que el footer esté siempre encima del contenido */
+}
+
+/* Aseguramos que el espacio en el footer no se solape */
+.footer {
+  padding: 20px 0;
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+  background-color: #333; /* Fondo oscuro */
+  text-align: center;
+  color: white;
+}
+
+.footer p {
+  margin: 0;
+}
+
+/* Si se hace zoom, el footer se mantendrá en su lugar */
+body {
+  overflow-x: hidden; /* Evita desplazamiento horizontal no deseado */
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .modal-container {
+    padding: 10px;
+  }
+}
+
+/* Aquí no debemos hacer zoom, sino usar una propiedad para mantener la escala uniforme */
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: space-between; /* Esto asegura que el header, contenido y footer estén distribuidos */
+  transform: scale(1); /* Aquí podemos aplicar una escala, por ejemplo con JS o CSS dinámicamente */
+  transform-origin: top; /* Asegura que la escala se realice desde el principio de la página */
+  transition: transform 0.3s ease-in-out; /* Transición suave cuando se cambia el tamaño */
+}

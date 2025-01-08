@@ -1,0 +1,122 @@
+.dashboard-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  text-align: center;
+  margin-top: 60px; /* Asegura que el contenido no se solape con el header fijo */
+}
+h2 {
+  color: #4caf50;
+}
+
+.dashboard-logo {
+  display: block;
+  margin: 0 auto;
+  width: 150; /* Tamaño fijo de la imagen */
+  height: auto; /* Mantiene las proporciones de la imagen */
+}
+
+.dashboard-section {
+  margin-bottom: 40px;
+}
+
+.dashboard-section h2 {
+  color: #4caf50; /* Color principal de EmpreX */
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.dashboard-section p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.shortcut-card {
+  background-color: #4caf50; /* Color principal de EmpreX */
+  color: white;
+  text-decoration: none;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+}
+
+.shortcut-card:hover {
+  background-color: #45a049; /* Tono más oscuro del color principal */
+  transform: translateY(-5px);
+}
+
+.shortcut-card .icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #4caf50; /* Color principal de EmpreX */
+}
+
+.contact-item .icon {
+  font-size: 20px;
+}
+
+.contact-item a {
+  color: #4caf50; /* Color principal de EmpreX */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-item a:hover {
+  color: #45a049; /* Tono más oscuro del color principal */
+}
+
+.motivational-message {
+  background-color: #f0f8f5; /* Fondo suave para destacar el mensaje */
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.motivational-message p {
+  font-style: italic;  
+}
+
+@media (max-width: 768px) {
+  .dashboard-logo {
+    width: 100%; /* Ocupar todo el ancho de la pantalla */
+    max-width: none; /* Anula el límite de tamaño máximo */
+    height: auto; /* Mantiene las proporciones de la imagen */
+  }
+
+  .shortcut-card {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .contact-info {
+    flex-direction: column;
+  }
+}

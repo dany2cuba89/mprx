@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EmpreX - Documentación completa de nuestra solución empresarial. Aprende a utilizar todas las funcionalidades de EmpreX con nuestra guía detallada.">
+  <meta name="keywords" content="EmpreX, documentación, manual, usuario, gestión, inventario, facturación, reportes">
+  <meta name="author" content="EmpreX">
+  <link rel="icon" type="image/png" href="favicon.png"> <!-- Cambia la ruta y el tipo de archivo según tu caso -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <title>Documentación - EmpreX</title>
+  <style>
+    /* Asegurar que no haya márgenes ni padding en el body y html */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden; /* Evita el desbordamiento horizontal */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* Asegura que el body ocupe al menos el 100% de la altura de la ventana */
+    }
+    /* Estilos personalizados para el contenido del manual */
+    .support-content {
+      width: 100%;
+      text-align: justify;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      color: #4a5568;
+    }
+    .support-content h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #2d3748;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .support-content h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #2d3748;
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer; /* Cambia el cursor al pasar sobre el título */
+      display: flex;
+      align-items: center;
+    }
+    .support-content h3 .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+    .support-content h3 .arrow.rotated {
+      transform: rotate(90deg);
+    }
+    .support-content .collapsible {
+      display: none; /* Oculta el contenido por defecto */
+      margin-top: 1rem;
+    }
+    .support-content .collapsible.open {
+      display: block; /* Muestra el contenido cuando está abierto */
+    }
+    .support-content p {
+      margin-bottom: 1.5rem;
+    }
+    .support-content ul {
+      list-style-type: disc;
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .support-content ul li {
+      margin-bottom: 0.5rem;
+    }
+    .support-content a {
+      color: #065F46;
+      text-decoration: underline;
+    }
+    .support-content a:hover {
+      color: #6EE7B7;
+    }
+    /* Estilos para el main */
+    .main-content {
+      width: 100%;
+      padding: 2rem 1rem;
+      flex: 1; /* Hace que el contenido principal ocupe el espacio restante */
+    }
+    /* Estilos para el menú hamburguesa en móviles */
+    @media (max-width: 767px) {
+      #menu {
+        position: absolute;
+        top: 100%; /* Posiciona el menú debajo del navbar */
+        right: 0;
+        background-color: #065F46;
+        width: 100%;
+        z-index: 1000;
+        display: none; /* Ocultar por defecto */
+        flex-direction: column;
+        align-items: center; /* Centra los elementos horizontalmente */
+        padding: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      #menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra los elementos horizontalmente */
+      }
+      #menu ul li {
+        width: auto; /* Ajusta el ancho al contenido */
+        padding: 1rem 0; /* Espaciado vertical */
+        text-align: center; /* Centra el texto dentro del li */
+      }
+      #menu ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        display: inline-block; /* Permite que el texto se centre correctamente */
+      }
+      #menu ul li a:hover {
+        color: #6EE7B7;
+      }
+      #menu.active {
+        display: flex;
+      }
+    }
+    /* Ajustes para pantallas grandes */
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 1200px;
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-900 bg-white">
+  <!-- Navbar -->
+  <nav class="bg-[#065F46] py-4 px-6 flex justify-between items-center relative">
+    <div class="flex items-center">
+      <a href="index.html">
+        <img src="logoblanco.png" alt="Logo de EmpreX" class="h-8 mr-4">
+      </a>
+      <a href="index.html" class="text-white font-bold text-xl">EmpreX</a>
+    </div>
+    <!-- Menú hamburguesa para móviles -->
+    <button id="menu-toggle" class="text-white focus:outline-none md:hidden">
+      <i class="fas fa-bars text-2xl"></i>
+    </button>
+    <!-- Menú de navegación -->
+    <ul id="menu" class="hidden md:flex space-x-6 text-white">
+      <li><a href="index.html" class="hover:text-[#6EE7B7]">Inicio</a></li>
+      <li><a href="caracteristicas.html" class="hover:text-[#6EE7B7]">Características</a></li>
+      <li><a href="historia.html" class="hover:text-[#6EE7B7]">Historia</a></li>
+      <li><a href="#footer" class="hover:text-[#6EE7B7]">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-cover bg-center bg-no-repeat" style="background-image: url('documentation.jpg');">
+    <div class="bg-black bg-opacity-50 py-16 md:py-24 px-4 md:px-16">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-3xl md:text-6xl font-bold text-white mb-4">Documentación de EmpreX</h1>
+        <p class="text-base md:text-xl text-gray-300 mb-8">Explora nuestra documentación para aprender a utilizar todas las funcionalidades de EmpreX.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenido principal de la página de documentación -->
+  <main class="main-content">
+    <div class="container mx-auto px-4">
+      <div class="support-content">
+        <h2>Manual de Usuario</h2>
+        <p>
+          Bienvenido a la documentación de EmpreX. Aquí encontrarás una guía detallada para utilizar todas las funcionalidades de nuestra plataforma. Sigue los pasos a continuación para sacar el máximo provecho de EmpreX.
+        </p>
+
+        <!-- Sección plegable: Inicio de Sesión -->
+        <h3 onclick="toggleSection('inicio-sesion')">
+          <span class="arrow">▶</span> 1. Inicio de Sesión
+        </h3>
+        <div id="inicio-sesion" class="collapsible">
+          <p>
+            Para acceder a la plataforma EmpreX, primero debes iniciar sesión. Una vez que se haya realizado la contratación del servicio, se te proporcionará un <strong>correo electrónico</strong> y una <strong>contraseña</strong> para acceder.
+          </p>
+          <h4>1. Acceso a la Página de Inicio de Sesión</h4>
+          <p>
+            Para acceder a la página de inicio de sesión, abre tu navegador web e ingresa la URL de la plataforma EmpreX. Si ya estás en la página principal, haz clic en el botón <strong>"Iniciar Sesión"</strong> o en el enlace correspondiente.
+          </p>
+          <h4>2. Campos del Formulario</h4>
+          <p>
+            La página de inicio de sesión tiene dos campos principales que debes completar:
+          </p>
+          <ul>
+            <li><strong>Correo Electrónico:</strong> Ingresa el correo electrónico que te proporcionó EmpreX.</li>
+            <li><strong>Contraseña:</strong> Ingresa la contraseña que te proporcionó EmpreX.</li>
+          </ul>
+          <h4>3. Iniciar Sesión</h4>
+          <p>
+            Una vez que hayas completado ambos campos, haz clic en el botón <strong>"Entrar"</strong>. Si tus credenciales son correctas, serás redirigido automáticamente al <strong>Dashboard</strong> de EmpreX.
+          </p>
+          <h4>4. Manejo de Errores</h4>
+          <p>
+            Si ocurre un error al intentar iniciar sesión, verás un mensaje de alerta en la parte superior del formulario. Los errores más comunes son:
+          </p>
+          <ul>
+            <li><strong>Credenciales Incorrectas:</strong> Asegúrate de que el correo electrónico y la contraseña estén escritos correctamente.</li>
+            <li><strong>Cuenta No Registrada:</strong> Si no tienes una cuenta en EmpreX, contacta al administrador de la plataforma.</li>
+          </ul>          
+          
+        </div>
+
+        <!-- Sección plegable: Guía de Uso del AppBar -->
+        <h3 onclick="toggleSection('appbar')">
+          <span class="arrow">▶</span> 2. Guía de Uso del AppBar (Barra de Navegación)
+        </h3>
+        <div id="appbar" class="collapsible">
+          <p>
+            El <strong>AppBar</strong> es la barra de navegación superior de la aplicación. Aquí te explicamos cómo usarlo:
+          </p>
+          <h4>1. Título de la Aplicación</h4>
+          <p>
+            El título <strong>"EmpreX"</strong> aparece en la esquina superior izquierda. Haz clic en él para volver a la página de inicio.
+          </p>
+          <h4>2. Avatar del Usuario</h4>
+          <p>
+            En la esquina superior derecha, verás un círculo con la primera letra de tu nombre de usuario. Haz clic en él para abrir el menú de usuario.
+          </p>
+          <h4>3. Menú de Usuario</h4>
+          <p>
+            Al hacer clic en el avatar, se abrirá un menú desplegable con las siguientes opciones:
+          </p>
+          <ul>
+            <li><strong>Información del Usuario:</strong> Verás tu correo electrónico y un saludo personalizado.</li>
+            <li><strong>Editar Perfil:</strong> Haz clic en el ícono de lápiz para editar tu perfil.</li>
+            <li><strong>Cerrar Sesión:</strong> Cierra tu sesión actual y te redirige a la página de inicio de sesión.</li>
+            <li><strong>Enlaces de Navegación:</strong> Accesos directos a las diferentes secciones de la aplicación (Inicio, Caja, Inventario, etc.).</li>
+          </ul>
+          <h4>4. Navegación Según Tu Rol</h4>
+          <p>
+            Dependiendo de tu rol (dueño, administrador, económico o cajero), verás diferentes opciones en el menú. Si no ves una sección, es porque no tienes permiso para acceder a ella.
+          </p>
+          <h4>5. Cómo Cerrar el Menú</h4>
+          <p>
+            Puedes cerrar el menú de usuario haciendo clic fuera de él o seleccionando una opción.
+          </p>
+        </div>
+
+        <!-- Sección plegable: Gestión de Perfil de Usuario -->
+        <h3 onclick="toggleSection('perfil-usuario')">
+          <span class="arrow">▶</span> 3. Gestión de Perfil de Usuario
+        </h3>
+        <div id="perfil-usuario" class="collapsible">
+          <p>
+            La página de perfil de usuario te permite actualizar tu información personal, como tu nombre, correo electrónico, nombre de usuario y contraseña. Aquí te explicamos cómo utilizarla:
+          </p>
+          <h4>1. Acceso a la Página de Perfil</h4>
+          <p>
+            Para acceder a la página de perfil, haz clic en tu avatar en la esquina superior derecha de la aplicación y selecciona <strong>"Editar Perfil"</strong> en el menú desplegable.
+          </p>
+          <h4>2. Campos del Formulario</h4>
+          <p>
+            En la página de perfil, encontrarás los siguientes campos:
+          </p>
+          <ul>
+            <li><strong>Nombre Completo:</strong> Ingresa tu nombre completo.</li>
+            <li><strong>Nombre de Usuario:</strong> Ingresa tu nombre de usuario.</li>
+            <li><strong>Correo Electrónico:</strong> Ingresa tu correo electrónico.</li>
+            <li><strong>Contraseña:</strong> Ingresa una nueva contraseña si deseas cambiarla (opcional).</li>
+          </ul>
+          <h4>3. Actualizar Perfil</h4>
+          <p>
+            Para guardar los cambios, haz clic en el botón <strong>"Actualizar Perfil"</strong>. Si los datos se actualizan correctamente, verás una notificación de éxito.
+          </p>
+          <h4>4. Notificaciones</h4>
+          <p>
+            Después de realizar cambios, se mostrará una notificación indicando si la actualización fue exitosa o si ocurrió un error.
+          </p>
+          <h4>5. Manejo de Errores</h4>
+          <p>
+            Si ocurre un error al actualizar tu perfil, verás un mensaje de error en la notificación. Algunos errores comunes incluyen:
+          </p>
+          <ul>
+            <li><strong>Correo Electrónico Ya Registrado:</strong> El correo electrónico que ingresaste ya está en uso.</li>
+            <li><strong>Nombre de Usuario Ya Existente:</strong> El nombre de usuario que ingresaste ya está en uso.</li>
+            <li><strong>Contraseña Inválida:</strong> La contraseña no cumple con los requisitos de seguridad.</li>
+          </ul>
+          
+        </div>
+
+        <!-- Sección plegable: Gestión de Usuarios -->
+        <h3 onclick="toggleSection('gestion-usuarios')">
+          <span class="arrow">▶</span> 4. Gestión de Usuarios
+        </h3>
+        <div id="gestion-usuarios" class="collapsible">
+          <p>
+            La página de gestión de usuarios te permite administrar los usuarios registrados en la plataforma. Aquí te explicamos cómo utilizarla:
+          </p>
+          <h4>1. Acceso a la Página de Gestión de Usuarios</h4>
+          <p>
+            Para acceder a la página de gestión de usuarios, selecciona la opción <strong>"Usuarios"</strong> en el menú de navegación.
+          </p>
+          <h4>2. Lista de Usuarios</h4>
+          <p>
+            En la página de gestión de usuarios, verás una tabla con la lista de usuarios registrados. Cada fila muestra:
+          </p>
+          <ul>
+            <li><strong>Nombre:</strong> El nombre completo del usuario.</li>
+            <li><strong>Correo:</strong> El correo electrónico del usuario.</li>
+            <li><strong>Rol:</strong> El rol del usuario (dueño, administrador, económico o cajero).</li>
+            <li><strong>Fecha de Creación:</strong> La fecha en que se registró el usuario.</li>
+          </ul>
+          <h4>3. Acciones Disponibles</h4>
+          <p>
+            Desde esta página, puedes realizar las siguientes acciones:
+          </p>
+          <ul>
+            <li><strong>Agregar Usuario:</strong> Haz clic en el botón <strong>"Agregar"</strong> para registrar un nuevo usuario.</li>
+            <li><strong>Editar Usuario:</strong> Selecciona un usuario de la lista y haz clic en el botón <strong>"Editar"</strong> para modificar sus datos.</li>
+            <li><strong>Eliminar Usuario:</strong> Selecciona un usuario de la lista y haz clic en el botón <strong>"Eliminar"</strong> para eliminarlo.</li>
+          </ul>
+          <h4>4. Agregar un Nuevo Usuario</h4>
+          <p>
+            Para agregar un nuevo usuario, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Haz clic en el botón <strong>"Agregar"</strong>.</li>
+            <li>Completa el formulario con los datos del usuario (correo, nombre completo, nombre de usuario, rol y contraseña).</li>
+            <li>Haz clic en <strong>"Agregar Usuario"</strong> para guardar los cambios.</li>
+          </ol>
+          <br> <!-- Aquí está el salto de línea visible -->
+          <h4>5. Editar un Usuario</h4>
+          <p>
+            Para editar un usuario existente, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Selecciona un usuario de la lista.</li>
+            <li>Haz clic en el botón <strong>"Editar"</strong>.</li>
+            <li>Modifica los datos que desees en el formulario.</li>
+            <li>Haz clic en <strong>"Guardar Cambios"</strong> para actualizar la información.</li>
+          </ol>
+          <br> <!-- Aquí está el salto de línea visible -->
+          <h4>6. Eliminar un Usuario</h4>
+          <p>
+            Para eliminar un usuario, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Selecciona un usuario de la lista.</li>
+            <li>Haz clic en el botón <strong>"Eliminar"</strong>.</li>
+            <li>Confirma la eliminación en el modal que aparecerá.</li>
+          </ol>
+          <br> <!-- Aquí está el salto de línea visible -->
+          <h4>7. Notificaciones</h4>
+          <p>
+            Después de realizar cualquier acción, se mostrará una notificación indicando si la operación fue exitosa o si ocurrió un error.
+          </p>
+          <h4>8. Manejo de Errores</h4>
+          <p>
+            Si ocurre un error durante la gestión de usuarios, verás un mensaje de error en la notificación. Algunos errores comunes incluyen:
+          </p>
+          <ul>
+            <li><strong>Correo Electrónico Ya Registrado:</strong> El correo electrónico que ingresaste ya está en uso.</li>
+            <li><strong>Nombre de Usuario Ya Existente:</strong> El nombre de usuario que ingresaste ya está en uso.</li>
+            <li><strong>Contraseña Inválida:</strong> La contraseña no cumple con los requisitos de seguridad.</li>
+          </ul>
+          
+        </div>
+
+        <!-- Sección plegable: Gestión de Empleados -->
+        <h3 onclick="toggleSection('gestion-empleados')">
+          <span class="arrow">▶</span> 5. Gestión de Empleados
+        </h3>
+        <div id="gestion-empleados" class="collapsible">
+          <p>
+            La página de gestión de empleados te permite administrar los empleados registrados en la plataforma. Aquí te explicamos cómo utilizarla:
+          </p>
+          <h4>1. Acceso a la Página de Gestión de Empleados</h4>
+          <p>
+            Para acceder a la página de gestión de empleados, selecciona la opción <strong>"Empleados"</strong> en el menú de navegación.
+          </p>
+          <h4>2. Lista de Empleados</h4>
+          <p>
+            En la página de gestión de empleados, verás una tabla con la lista de empleados registrados. Cada fila muestra:
+          </p>
+          <ul>
+            <li><strong>Nombre:</strong> El nombre completo del empleado.</li>
+            <li><strong>Puesto:</strong> El puesto que ocupa el empleado.</li>
+            <li><strong>Salario:</strong> El salario del empleado.</li>
+            <li><strong>Correo Electrónico:</strong> El correo electrónico del empleado.</li>
+            <li><strong>Fecha de Contratación:</strong> La fecha en que se contrató al empleado.</li>
+            <li><strong>Estado:</strong> Indica si el empleado está activo o inactivo.</li>
+          </ul>
+          <h4>3. Acciones Disponibles</h4>
+          <p>
+            Desde esta página, puedes realizar las siguientes acciones:
+          </p>
+          <ul>
+            <li><strong>Agregar Empleado:</strong> Haz clic en el botón <strong>"Agregar"</strong> para registrar un nuevo empleado.</li>
+            <li><strong>Editar Empleado:</strong> Selecciona un empleado de la lista y haz clic en el botón <strong>"Editar"</strong> para modificar sus datos.</li>
+            <li><strong>Realizar Pago:</strong> Selecciona un empleado y haz clic en el botón <strong>"Realizar Pago"</strong> para registrar un pago.</li>
+            <li><strong>Eliminar Empleado:</strong> Selecciona un empleado de la lista y haz clic en el botón <strong>"Eliminar"</strong> para eliminarlo.</li>
+          </ul>
+          <h4>4. Agregar un Nuevo Empleado</h4>
+          <p>
+            Para agregar un nuevo empleado, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Haz clic en el botón <strong>"Agregar"</strong>.</li>
+            <li>Completa el formulario con los datos del empleado (nombre, puesto, salario, correo, método de pago, sistema de pago, etc.).</li>
+            <li>Haz clic en <strong>"Agregar Empleado"</strong> para guardar los cambios.</li>
+          </ol>
+          <br> <!-- Aquí está el salto de línea visible -->
+          <h4>5. Editar un Empleado</h4>
+          <p>
+            Para editar un empleado existente, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Selecciona un empleado de la lista.</li>
+            <li>Haz clic en el botón <strong>"Editar"</strong>.</li>
+            <li>Modifica los datos que desees en el formulario.</li>
+            <li>Haz clic en <strong>"Guardar Cambios"</strong> para actualizar la información.</li>
+          </ol>
+          <br> <!-- Aquí está el salto de línea visible -->
+          <h4>6. Realizar un Pago</h4>
+          <p>
+            Para realizar un pago a un empleado, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Selecciona un empleado de la lista.</li>
+            <li>Haz clic en el botón <strong>"Realizar Pago"</strong>.</li>
+            <li>Completa el formulario de pago (monto, intervalo de pago, fechas, etc.).</li>
+            <li>Haz clic en <strong>"Confirmar Pago"</strong> para registrar el pago.</li>
+          </ol>
+          <br> <!-- Aquí está el salto de línea visible -->
+          <h4>7. Eliminar un Empleado</h4>
+          <p>
+            Para eliminar un empleado, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Selecciona un empleado de la lista.</li>
+            <li>Haz clic en el botón <strong>"Eliminar"</strong>.</li>
+            <li>Confirma la eliminación en el modal que aparecerá.</li>
+          </ol>
+          <br> <!-- Aquí está el salto de línea visible -->
+          <h4>8. Notificaciones</h4>
+          <p>
+            Después de realizar cualquier acción, se mostrará una notificación indicando si la operación fue exitosa o si ocurrió un error.
+          </p>
+          <h4>9. Manejo de Errores</h4>
+          <p>
+            Si ocurre un error durante la gestión de empleados, verás un mensaje de error en la notificación. Algunos errores comunes incluyen:
+          </p>
+          <ul>
+            <li><strong>Correo Electrónico Ya Registrado:</strong> El correo electrónico que ingresaste ya está en uso.</li>
+            <li><strong>Nombre Ya Existente:</strong> El nombre que ingresaste ya está en uso.</li>
+            <li><strong>Datos Inválidos:</strong> Algunos campos no cumplen con los requisitos.</li>
+          </ul>          
+        </div>  
+        
+        <!-- Sección plegable: Gestión de Proveedores -->
+<h3 onclick="toggleSection('gestion-proveedores')">
+  <span class="arrow">▶</span> 6. Gestión de Proveedores
+</h3>
+<div id="gestion-proveedores" class="collapsible">
+  <p>
+    La página de gestión de proveedores te permite administrar los proveedores registrados en la plataforma. Aquí te explicamos cómo utilizarla:
+  </p>
+  <h4>1. Acceso a la Página de Gestión de Proveedores</h4>
+  <p>
+    Para acceder a la página de gestión de proveedores, selecciona la opción <strong>"Proveedores"</strong> en el menú de navegación.
+  </p>
+  <h4>2. Lista de Proveedores</h4>
+  <p>
+    En la página de gestión de proveedores, verás una tabla con la lista de proveedores registrados. Cada fila muestra:
+  </p>
+  <ul>
+    <li><strong>Nombre:</strong> El nombre o razón social del proveedor.</li>
+    <li><strong>Tipo:</strong> El tipo de proveedor (Nacional o Extranjero).</li>
+    <li><strong>NIT:</strong> El NIT del proveedor.</li>
+    <li><strong>Teléfono:</strong> El teléfono del proveedor.</li>
+    <li><strong>Estado:</strong> El estado del proveedor (Activo, Inactivo o Suspendido).</li>
+  </ul>
+  <h4>3. Acciones Disponibles</h4>
+  <p>
+    Desde esta página, puedes realizar las siguientes acciones:
+  </p>
+  <ul>
+    <li><strong>Agregar Proveedor:</strong> Haz clic en el botón <strong>"Agregar"</strong> para registrar un nuevo proveedor.</li>
+    <li><strong>Editar Proveedor:</strong> Selecciona un proveedor de la lista y haz clic en el botón <strong>"Editar"</strong> para modificar sus datos.</li>
+    <li><strong>Ver Detalles:</strong> Selecciona un proveedor y haz clic en el botón <strong>"Detalles"</strong> para ver toda su información.</li>
+    <li><strong>Eliminar Proveedor:</strong> Selecciona un proveedor de la lista y haz clic en el botón <strong>"Eliminar"</strong> para eliminarlo.</li>
+  </ul>
+  <h4>4. Agregar un Nuevo Proveedor</h4>
+  <p>
+    Para agregar un nuevo proveedor, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Haz clic en el botón <strong>"Agregar"</strong>.</li>
+    <li>Completa el formulario con los datos del proveedor (nombre, tipo, NIT, dirección, teléfono, correo, etc.).</li>
+    <li>Haz clic en <strong>"Agregar"</strong> para guardar los cambios.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>5. Editar un Proveedor</h4>
+  <p>
+    Para editar un proveedor existente, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona un proveedor de la lista.</li>
+    <li>Haz clic en el botón <strong>"Editar"</strong>.</li>
+    <li>Modifica los datos que desees en el formulario.</li>
+    <li>Haz clic en <strong>"Guardar"</strong> para actualizar la información.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>6. Ver Detalles de un Proveedor</h4>
+  <p>
+    Para ver los detalles de un proveedor, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona un proveedor de la lista.</li>
+    <li>Haz clic en el botón <strong>"Detalles"</strong>.</li>
+    <li>Se abrirá un modal con toda la información del proveedor.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>7. Eliminar un Proveedor</h4>
+  <p>
+    Para eliminar un proveedor, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona un proveedor de la lista.</li>
+    <li>Haz clic en el botón <strong>"Eliminar"</strong>.</li>
+    <li>Confirma la eliminación en el modal que aparecerá.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>8. Notificaciones</h4>
+  <p>
+    Después de realizar cualquier acción, se mostrará una notificación indicando si la operación fue exitosa o si ocurrió un error.
+  </p>
+  <h4>9. Manejo de Errores</h4>
+  <p>
+    Si ocurre un error durante la gestión de proveedores, verás un mensaje de error en la notificación. Algunos errores comunes incluyen:
+  </p>
+  <ul>
+    <li><strong>Correo Electrónico Ya Registrado:</strong> El correo electrónico que ingresaste ya está en uso.</li>
+    <li><strong>NIT Ya Existente:</strong> El NIT que ingresaste ya está en uso.</li>
+    <li><strong>Datos Inválidos:</strong> Algunos campos no cumplen con los requisitos.</li>
+  </ul>  
+</div>  
+
+<!-- Sección plegable: Gestión de Solicitudes de Compra -->
+<h3 onclick="toggleSection('gestion-solicitudes-compra')">
+  <span class="arrow">▶</span> 7. Gestión de Solicitudes de Compra
+</h3>
+<div id="gestion-solicitudes-compra" class="collapsible">
+  <p>
+    La página de gestión de solicitudes de compra te permite administrar las solicitudes de compra realizadas a los proveedores. Aquí te explicamos cómo utilizarla:
+  </p>
+  <h4>1. Acceso a la Página de Gestión de Solicitudes de Compra</h4>
+  <p>
+    Para acceder a la página de gestión de solicitudes de compra, selecciona la opción <strong>"Solicitudes de Compra"</strong> en el menú de navegación.
+  </p>
+  <h4>2. Lista de Solicitudes de Compra</h4>
+  <p>
+    En la página de gestión de solicitudes de compra, verás una tabla con la lista de solicitudes registradas. Cada fila muestra:
+  </p>
+  <ul>
+    <li><strong>ID:</strong> El identificador único de la solicitud.</li>
+    <li><strong>Proveedor:</strong> El nombre del proveedor asociado a la solicitud.</li>
+    <li><strong>Fecha de Solicitud:</strong> La fecha en que se realizó la solicitud.</li>
+    <li><strong>Estado:</strong> El estado actual de la solicitud (Pendiente, Aprobada, Rechazada).</li>
+  </ul>
+  <h4>3. Acciones Disponibles</h4>
+  <p>
+    Desde esta página, puedes realizar las siguientes acciones:
+  </p>
+  <ul>
+    <li><strong>Agregar Solicitud:</strong> Haz clic en el botón <strong>"Agregar"</strong> para crear una nueva solicitud de compra.</li>
+    <li><strong>Editar Solicitud:</strong> Selecciona una solicitud de la lista y haz clic en el botón <strong>"Editar"</strong> para modificar sus datos.</li>
+    <li><strong>Eliminar Solicitud:</strong> Selecciona una solicitud de la lista y haz clic en el botón <strong>"Eliminar"</strong> para eliminarla.</li>
+    <li><strong>Ver Ficha de Costo:</strong> Si la solicitud está aprobada, puedes ver la ficha de costo asociada a los productos solicitados.</li>
+  </ul>
+  <h4>4. Agregar una Nueva Solicitud de Compra</h4>
+  <p>
+    Para agregar una nueva solicitud de compra, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Haz clic en el botón <strong>"Agregar"</strong>.</li>
+    <li>Completa el formulario con los datos de la solicitud (proveedor, fecha, condiciones de pago, condiciones de entrega, etc.).</li>
+    <li>Agrega los productos solicitados en la sección correspondiente.</li>
+    <li>Haz clic en <strong>"Agregar Solicitud"</strong> para guardar los cambios.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>5. Editar una Solicitud de Compra</h4>
+  <p>
+    Para editar una solicitud existente, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona una solicitud de la lista.</li>
+    <li>Haz clic en el botón <strong>"Editar"</strong>.</li>
+    <li>Modifica los datos que desees en el formulario.</li>
+    <li>Haz clic en <strong>"Guardar Cambios"</strong> para actualizar la información.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>6. Eliminar una Solicitud de Compra</h4>
+  <p>
+    Para eliminar una solicitud, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona una solicitud de la lista.</li>
+    <li>Haz clic en el botón <strong>"Eliminar"</strong>.</li>
+    <li>Confirma la eliminación en el modal que aparecerá.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>7. Ver Ficha de Costo</h4>
+  <p>
+    Si una solicitud está aprobada, puedes ver la ficha de costo asociada a los productos solicitados. Para ello:
+  </p>
+  <ol>
+    <li>Selecciona una solicitud aprobada de la lista.</li>
+    <li>Haz clic en el botón <strong>"Ver Ficha de Costo"</strong>.</li>
+    <li>Se abrirá un modal con los detalles de la ficha de costo, incluyendo el precio de adquisición, gastos adicionales, margen de utilidad y precio de venta propuesto.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>8. Notificaciones</h4>
+  <p>
+    Después de realizar cualquier acción, se mostrará una notificación indicando si la operación fue exitosa o si ocurrió un error.
+  </p>
+  <h4>9. Manejo de Errores</h4>
+  <p>
+    Si ocurre un error durante la gestión de solicitudes de compra, verás un mensaje de error en la notificación. Algunos errores comunes incluyen:
+  </p>
+  <ul>
+    <li><strong>Proveedor No Válido:</strong> El proveedor seleccionado no existe o no está activo.</li>
+    <li><strong>Productos No Válidos:</strong> No se han agregado productos a la solicitud.</li>
+    <li><strong>Datos Inválidos:</strong> Algunos campos no cumplen con los requisitos.</li>
+  </ul> 
+</div>
+
+<!-- Sección plegable: Gestión de Recepciones -->
+<h3 onclick="toggleSection('gestion-recepciones')">
+  <span class="arrow">▶</span> 8. Gestión de Recepciones
+</h3>
+<div id="gestion-recepciones" class="collapsible">
+  <p>
+    La página de gestión de recepciones te permite administrar las recepciones de productos asociadas a las solicitudes de compra aprobadas. Aquí te explicamos cómo utilizarla:
+  </p>
+  <h4>1. Acceso a la Página de Gestión de Recepciones</h4>
+  <p>
+    Para acceder a la página de gestión de recepciones, selecciona la opción <strong>"Recepciones"</strong> en el menú de navegación.
+  </p>
+  <h4>2. Lista de Recepciones</h4>
+  <p>
+    En la página de gestión de recepciones, verás una tabla con la lista de recepciones registradas. Cada fila muestra:
+  </p>
+  <ul>
+    <li><strong>ID:</strong> El identificador único de la recepción.</li>
+    <li><strong>Proveedor:</strong> El nombre del proveedor asociado a la recepción.</li>
+    <li><strong>Empleado:</strong> El nombre del empleado que realizó la recepción.</li>
+    <li><strong>Fecha:</strong> La fecha en que se realizó la recepción.</li>
+  </ul>
+  <h4>3. Acciones Disponibles</h4>
+  <p>
+    Desde esta página, puedes realizar las siguientes acciones:
+  </p>
+  <ul>
+    <li><strong>Agregar Recepción:</strong> Haz clic en el botón <strong>"Agregar"</strong> para crear una nueva recepción.</li>
+    <li><strong>Ver Detalles:</strong> Selecciona una recepción de la lista y haz clic en el botón <strong>"Detalles"</strong> para ver los productos recibidos.</li>
+  </ul>
+  <h4>4. Agregar una Nueva Recepción</h4>
+  <p>
+    Para agregar una nueva recepción, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Haz clic en el botón <strong>"Agregar"</strong>.</li>
+    <li>Ingresa el número de la solicitud de compra asociada a la recepción.</li>
+    <li>Selecciona el empleado que realizó la recepción.</li>
+    <li>Ingresa la fecha de recepción y las observaciones adicionales.</li>
+    <li>Verifica los productos recibidos y confirma la recepción.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>5. Ver Detalles de una Recepción</h4>
+  <p>
+    Para ver los detalles de una recepción, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona una recepción de la lista.</li>
+    <li>Haz clic en el botón <strong>"Detalles"</strong>.</li>
+    <li>Se abrirá un modal con los detalles de la recepción, incluyendo los productos recibidos y su estado.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>6. Confirmar Productos Recibidos</h4>
+  <p>
+    Durante el proceso de recepción, debes confirmar cada producto recibido. Para ello:
+  </p>
+  <ol>
+    <li>Selecciona un producto de la lista.</li>
+    <li>Ingresa la cantidad recibida y el estado del producto.</li>
+    <li>Confirma el producto para agregarlo al inventario.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>7. Notificaciones</h4>
+  <p>
+    Después de realizar cualquier acción, se mostrará una notificación indicando si la operación fue exitosa o si ocurrió un error.
+  </p>
+  <h4>8. Manejo de Errores</h4>
+  <p>
+    Si ocurre un error durante la gestión de recepciones, verás un mensaje de error en la notificación. Algunos errores comunes incluyen:
+  </p>
+  <ul>
+    <li><strong>Solicitud No Válida:</strong> La solicitud de compra seleccionada no existe o no está aprobada.</li>
+    <li><strong>Productos No Válidos:</strong> No se han agregado productos a la recepción.</li>
+    <li><strong>Datos Inválidos:</strong> Algunos campos no cumplen con los requisitos.</li>
+  </ul>
+</div>
+
+<!-- Sección plegable: Gestión de Inventario -->
+<h3 onclick="toggleSection('gestion-inventario')">
+  <span class="arrow">▶</span> 9. Gestión de Inventario
+</h3>
+<div id="gestion-inventario" class="collapsible">
+  <p>
+    La página de gestión de inventario te permite administrar los productos registrados en la plataforma. Aquí te explicamos cómo utilizarla:
+  </p>
+  <h4>1. Acceso a la Página de Gestión de Inventario</h4>
+  <p>
+    Para acceder a la página de gestión de inventario, selecciona la opción <strong>"Inventario"</strong> en el menú de navegación.
+  </p>
+  <h4>2. Lista de Productos</h4>
+  <p>
+    En la página de gestión de inventario, verás una tabla con la lista de productos registrados. Cada fila muestra:
+  </p>
+  <ul>
+    <li><strong>Nombre:</strong> El nombre del producto.</li>
+    <li><strong>Unidad de Medida:</strong> La unidad de medida del producto (kg, litros, unidades, etc.).</li>
+    <li><strong>Precio de Compra:</strong> El precio al que se compró el producto.</li>
+    <li><strong>Precio de Venta:</strong> El precio al que se vende el producto.</li>
+    <li><strong>Stock:</strong> La cantidad disponible del producto.</li>
+    <li><strong>Nivel Mínimo:</strong> El nivel mínimo de stock permitido para el producto.</li>
+    <li><strong>Categoría:</strong> La categoría a la que pertenece el producto.</li>
+  </ul>
+  <h4>3. Acciones Disponibles</h4>
+  <p>
+    Desde esta página, puedes realizar las siguientes acciones:
+  </p>
+  <ul>
+    <li><strong>Exportar a Excel:</strong> Haz clic en el botón <strong>"Exportar a Excel"</strong> para descargar un archivo Excel con el inventario actual.</li>
+    <li><strong>Descargar Código QR:</strong> Selecciona un producto y haz clic en el botón <strong>"Descargar Código QR"</strong> para generar y descargar un código QR asociado al producto. Este código QR se utiliza para identificar rápidamente el producto en el módulo de APV (Caja) al escanearlo.</li>
+  </ul>
+  <h4>4. Exportar a Excel</h4>
+  <p>
+    Para exportar el inventario a un archivo Excel, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Haz clic en el botón <strong>"Exportar a Excel"</strong>.</li>
+    <li>Se descargará automáticamente un archivo Excel con la lista de productos, incluyendo detalles como nombre, precio de compra, precio de venta, stock, nivel mínimo, unidad de medida y categoría.</li>
+  </ol>
+  <br> <!-- Salto de línea añadido -->
+  <h4>5. Descargar Código QR</h4>
+  <p>
+    Para generar y descargar un código QR asociado a un producto, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona un producto de la lista.</li>
+    <li>Haz clic en el botón <strong>"Descargar Código QR"</strong>.</li>
+    <li>Se generará y descargará automáticamente un archivo PNG con el código QR del producto.</li>
+  </ol>
+  <p>
+    <strong>Nota:</strong> El código QR de cada producto contiene su identificador único. Este código se utiliza en el módulo de APV (Caja) para escanear y agregar rápidamente el producto a una venta, agilizando el proceso de facturación.
+  </p>
+  <h4>6. Notificaciones</h4>
+  <p>
+    Después de realizar cualquier acción, se mostrará una notificación indicando si la operación fue exitosa o si ocurrió un error.
+  </p>
+  <h4>7. Manejo de Errores</h4>
+  <p>
+    Si ocurre un error durante la gestión de inventario, verás un mensaje de error en la notificación. Algunos errores comunes incluyen:
+  </p>
+  <ul>
+    <li><strong>Error al Exportar:</strong> No se pudo generar el archivo Excel. Asegúrate de tener conexión a Internet y permisos para descargar archivos.</li>
+    <li><strong>Error al Generar QR:</strong> No se pudo generar el código QR. Verifica que el producto seleccionado tenga un identificador válido.</li>
+  </ul>
+</div>
+
+<!-- Sección plegable: Gestión de Caja Registradora -->
+<h3 onclick="toggleSection('gestion-caja')">
+  <span class="arrow">▶</span> 10. Gestión de Caja Registradora
+</h3>
+<div id="gestion-caja" class="collapsible">
+  <p>
+    El módulo de <strong>Caja Registradora</strong> te permite gestionar las ventas de productos en tu negocio. Aquí te explicamos cómo utilizarlo:
+  </p>
+  <h4>1. Acceso a la Página de Caja Registradora</h4>
+  <p>
+    Para acceder a la página de caja registradora, selecciona la opción <strong>"Caja"</strong> en el menú de navegación.
+  </p>
+  <h4>2. Interfaz de Caja Registradora</h4>
+  <p>
+    En la página de caja registradora, encontrarás las siguientes secciones:
+  </p>
+  <ul>
+    <li><strong>Carrito de Compras:</strong> Muestra los productos añadidos a la venta actual, con detalles como nombre, precio, cantidad e importe.</li>
+    <li><strong>Total de la Venta:</strong> Muestra el monto total de la venta actual.</li>
+    <li><strong>Método de Pago:</strong> Permite seleccionar el método de pago (efectivo o transferencia).</li>
+    <li><strong>Botones de Acción:</strong> Incluye botones para agregar productos, confirmar la venta y reiniciar el proceso.</li>
+  </ul>
+  <h4>3. Agregar Productos al Carrito</h4>
+  <p>
+    Para agregar productos al carrito, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Haz clic en el botón <strong>"Agregar Producto"</strong>.</li>
+    <li>Se abrirá un modal con dos pestañas: <strong>Manual</strong> y <strong>QR</strong>.</li>
+    <li>
+      <strong>Pestaña Manual:</strong>
+      <ul>
+        <li>Busca productos por nombre utilizando el campo de búsqueda.</li>
+        <li>Selecciona un producto de la lista y especifica la cantidad.</li>
+        <li>Haz clic en <strong>"Añadir al Carrito"</strong> para agregar el producto.</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Pestaña QR:</strong>
+      <ul>
+        <li>Escanea el código QR del producto utilizando la cámara.</li>
+        <li>El producto se agregará automáticamente al carrito si está disponible en el inventario.</li>
+      </ul>
+    </li>
+  </ol>
+  <h4>4. Modificar Cantidades en el Carrito</h4>
+  <p>
+    Para modificar las cantidades de los productos en el carrito:
+  </p>
+  <ul>
+    <li>Utiliza el campo de selección en la columna <strong>"Cantidad"</strong> para ajustar la cantidad de cada producto.</li>
+    <li>Si la cantidad se establece en <strong>0</strong>, el producto se eliminará del carrito.</li>
+  </ul>
+  <h4>5. Seleccionar Método de Pago</h4>
+  <p>
+    Antes de confirmar la venta, selecciona el método de pago:
+  </p>
+  <ul>
+    <li><strong>Efectivo:</strong> No se requieren detalles adicionales.</li>
+    <li><strong>Transferencia:</strong> Debes ingresar el número de tarjeta, nombre del cliente y CI del cliente.</li>
+  </ul>
+  <h4>6. Confirmar Venta</h4>
+  <p>
+    Para finalizar la venta, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Verifica que todos los productos y cantidades en el carrito sean correctos.</li>
+    <li>Selecciona el método de pago y completa los detalles si es necesario.</li>
+    <li>Haz clic en el botón <strong>"Confirmar Venta"</strong>.</li>
+    <li>Si la venta se procesa correctamente, se mostrará una notificación de éxito y el carrito se vaciará automáticamente.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>7. Notificaciones</h4>
+  <p>
+    Durante el proceso de venta, se mostrarán notificaciones para informarte sobre el estado de las operaciones, como:
+  </p>
+  <ul>
+    <li><strong>Éxito:</strong> Cuando un producto se agrega correctamente al carrito o la venta se confirma.</li>
+    <li><strong>Error:</strong> Si ocurre un problema, como un producto sin stock o un error en el proceso de pago.</li>
+    <li><strong>Información:</strong> Para notificaciones generales, como la eliminación de un producto del carrito.</li>
+  </ul>
+  <h4>8. Manejo de Errores</h4>
+  <p>
+    Si ocurre un error durante el proceso de venta, verás un mensaje de error en la notificación. Algunos errores comunes incluyen:
+  </p>
+  <ul>
+    <li><strong>Producto sin Stock:</strong> No se puede agregar un producto que no tiene stock disponible.</li>
+    <li><strong>Error en el Pago:</strong> Si el método de pago seleccionado no es válido o falta información.</li>
+    <li><strong>Error de Escaneo:</strong> Si el código QR escaneado no corresponde a un producto válido.</li>
+  </ul>
+</div>
+
+<!-- Sección plegable: Gestión de Facturas -->
+<h3 onclick="toggleSection('gestion-facturas')">
+  <span class="arrow">▶</span> 11. Gestión de Facturas
+</h3>
+<div id="gestion-facturas" class="collapsible">
+  <p>
+    El módulo de <strong>Gestión de Facturas</strong> te permite consultar y gestionar las facturas generadas en tu negocio, ya sean de venta o de compra. Aquí te explicamos cómo utilizarlo:
+  </p>
+  <h4>1. Acceso a la Página de Gestión de Facturas</h4>
+  <p>
+    Para acceder a la página de gestión de facturas, selecciona la opción <strong>"Facturas"</strong> en el menú de navegación.
+  </p>
+  <h4>2. Interfaz de Gestión de Facturas</h4>
+  <p>
+    En la página de gestión de facturas, encontrarás las siguientes secciones:
+  </p>
+  <ul>
+    <li><strong>Filtros:</strong> Permite seleccionar el tipo de factura (venta o compra) y el intervalo de fechas para filtrar los resultados.</li>
+    <li><strong>Tabla de Facturas:</strong> Muestra las facturas generadas, con detalles como fecha, hora, tipo, total y cajero.</li>
+    <li><strong>Paginación:</strong> Permite navegar entre las páginas de resultados.</li>
+    <li><strong>Botones de Acción:</strong> Incluye botones para ver detalles de una factura y exportarla a Excel.</li>
+  </ul>
+  <h4>3. Filtrar Facturas</h4>
+  <p>
+    Para filtrar las facturas, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona el <strong>Tipo de Factura</strong> (venta o compra) en el menú desplegable.</li>
+    <li>Selecciona el <strong>Intervalo de Fechas</strong>:
+      <ul>
+        <li><strong>Hoy:</strong> Muestra las facturas generadas hoy.</li>
+        <li><strong>Última Semana:</strong> Muestra las facturas de los últimos 7 días.</li>
+        <li><strong>Último Mes:</strong> Muestra las facturas del mes anterior.</li>
+        <li><strong>Último Año:</strong> Muestra las facturas del año anterior.</li>
+        <li><strong>Personalizado:</strong> Permite seleccionar un rango de fechas específico.</li>
+      </ul>
+    </li>
+    <li>Si seleccionas <strong>Personalizado</strong>, ingresa las fechas de inicio y fin en los campos correspondientes.</li>
+    <li>Las facturas se actualizarán automáticamente según los filtros seleccionados.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>4. Ver Detalles de una Factura</h4>
+  <p>
+    Para ver los detalles de una factura, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona una factura de la tabla haciendo clic en ella.</li>
+    <li>Haz clic en el botón <strong>"Detalles"</strong>.</li>
+    <li>Se abrirá un modal con la información detallada de la factura, incluyendo:
+      <ul>
+        <li><strong>Fecha y Hora:</strong> Fecha y hora en que se generó la factura.</li>
+        <li><strong>Total:</strong> Monto total de la factura.</li>
+        <li><strong>Método de Pago:</strong> Método de pago utilizado (efectivo o transferencia).</li>
+        <li><strong>Cajero:</strong> Nombre del cajero que generó la factura.</li>
+        <li><strong>Productos:</strong> Lista de productos incluidos en la factura, con detalles como nombre, cantidad, precio e importe.</li>
+      </ul>
+    </li>
+  </ol>
+  <h4>5. Exportar una Factura a Excel</h4>
+  <p>
+    Para exportar una factura a Excel, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona una factura de la tabla haciendo clic en ella.</li>
+    <li>Haz clic en el botón <strong>"Exportar a Excel"</strong>.</li>
+    <li>Se descargará automáticamente un archivo Excel con los detalles de la factura seleccionada.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>6. Notificaciones</h4>
+  <p>
+    Durante el proceso de gestión de facturas, se mostrarán notificaciones para informarte sobre el estado de las operaciones, como:
+  </p>
+  <ul>
+    <li><strong>Éxito:</strong> Cuando una factura se exporta correctamente.</li>
+    <li><strong>Error:</strong> Si ocurre un problema, como la falta de selección de una factura.</li>
+  </ul>
+  <h4>7. Manejo de Errores</h4>
+  <p>
+    Si ocurre un error durante la gestión de facturas, verás un mensaje de error en la notificación. Algunos errores comunes incluyen:
+  </p>
+  <ul>
+    <li><strong>Factura No Seleccionada:</strong> Debes seleccionar una factura antes de realizar acciones como ver detalles o exportar.</li>
+    <li><strong>Error de Exportación:</strong> Si no se puede generar el archivo Excel.</li>
+  </ul>
+</div>
+
+<!-- Sección plegable: Gestión de Activos Fijos -->
+<h3 onclick="toggleSection('gestion-activos-fijos')">
+  <span class="arrow">▶</span> 12. Gestión de Activos Fijos
+</h3>
+<div id="gestion-activos-fijos" class="collapsible">
+  <p>
+    El módulo de <strong>Gestión de Activos Fijos</strong> te permite administrar los activos fijos de tu negocio, como maquinaria, equipos, vehículos y otros bienes de larga duración. Aquí te explicamos cómo utilizarlo:
+  </p>
+  <h4>1. Acceso a la Página de Gestión de Activos Fijos</h4>
+  <p>
+    Para acceder a la página de gestión de activos fijos, selecciona la opción <strong>"Activos Fijos"</strong> en el menú de navegación.
+  </p>
+  <h4>2. Interfaz de Gestión de Activos Fijos</h4>
+  <p>
+    En la página de gestión de activos fijos, encontrarás las siguientes secciones:
+  </p>
+  <ul>
+    <li><strong>Tabla de Activos:</strong> Muestra los activos fijos registrados, con detalles como nombre, categoría, valor, vida útil, ubicación y estado.</li>
+    <li><strong>Paginación:</strong> Permite navegar entre las páginas de resultados.</li>
+    <li><strong>Botones de Acción:</strong> Incluye botones para agregar, editar, eliminar y ver detalles de un activo.</li>
+  </ul>
+  <h4>3. Agregar un Nuevo Activo Fijo</h4>
+  <p>
+    Para agregar un nuevo activo fijo, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Haz clic en el botón <strong>"Agregar"</strong>.</li>
+    <li>Completa el formulario con los datos del activo:
+      <ul>
+        <li><strong>Nombre:</strong> El nombre del activo.</li>
+        <li><strong>Descripción:</strong> Una breve descripción del activo.</li>
+        <li><strong>Categoría:</strong> La categoría a la que pertenece el activo (maquinaria, equipo, vehículo, etc.).</li>
+        <li><strong>Fecha de Adquisición:</strong> La fecha en que se adquirió el activo.</li>
+        <li><strong>Valor:</strong> El valor de adquisición del activo.</li>
+        <li><strong>Vida Útil:</strong> La vida útil estimada del activo en años.</li>
+        <li><strong>Ubicación:</strong> La ubicación física del activo.</li>
+        <li><strong>Estado:</strong> El estado actual del activo (Activo, Inactivo, En Reparación).</li>
+      </ul>
+    </li>
+    <li>Haz clic en <strong>"Registrar"</strong> para guardar el activo.</li>
+  </ol>
+    <br> <!-- Aquí está el salto de línea visible -->
+  <h4>4. Editar un Activo Fijo</h4>
+  <p>
+    Para editar un activo fijo existente, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona un activo de la tabla haciendo clic en él.</li>
+    <li>Haz clic en el botón <strong>"Editar"</strong>.</li>
+    <li>Modifica los datos que desees en el formulario.</li>
+    <li>Haz clic en <strong>"Guardar Cambios"</strong> para actualizar la información.</li>
+  </ol>
+    <br> <!-- Aquí está el salto de línea visible -->
+  <h4>5. Eliminar un Activo Fijo</h4>
+  <p>
+    Para eliminar un activo fijo, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona un activo de la tabla haciendo clic en él.</li>
+    <li>Haz clic en el botón <strong>"Eliminar"</strong>.</li>
+    <li>Confirma la eliminación en el modal que aparecerá.</li>
+  </ol>
+    <br> <!-- Aquí está el salto de línea visible -->
+  <h4>6. Ver Detalles de un Activo Fijo</h4>
+  <p>
+    Para ver los detalles de un activo fijo, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona un activo de la tabla haciendo clic en él.</li>
+    <li>Haz clic en el botón <strong>"Detalles"</strong>.</li>
+    <li>Se abrirá un modal con la información detallada del activo, incluyendo:
+      <ul>
+        <li><strong>Nombre:</strong> Nombre del activo.</li>
+        <li><strong>Descripción:</strong> Descripción del activo.</li>
+        <li><strong>Categoría:</strong> Categoría del activo.</li>
+        <li><strong>Fecha de Adquisición:</strong> Fecha en que se adquirió el activo.</li>
+        <li><strong>Valor:</strong> Valor de adquisición del activo.</li>
+        <li><strong>Vida Útil:</strong> Vida útil estimada del activo.</li>
+        <li><strong>Ubicación:</strong> Ubicación física del activo.</li>
+        <li><strong>Estado:</strong> Estado actual del activo.</li>
+        <li><strong>Depreciación Anual:</strong> Depreciación anual calculada.</li>
+        <li><strong>Depreciación Acumulada:</strong> Depreciación acumulada hasta la fecha.</li>
+        <li><strong>Valor Residual:</strong> Valor residual del activo.</li>
+        <li><strong>Fecha de Baja:</strong> Fecha estimada de baja del activo.</li>
+      </ul>
+    </li>
+  </ol>
+  <h4>7. Notificaciones</h4>
+  <p>
+    Durante el proceso de gestión de activos fijos, se mostrarán notificaciones para informarte sobre el estado de las operaciones, como:
+  </p>
+  <ul>
+    <li><strong>Éxito:</strong> Cuando un activo se registra, edita o elimina correctamente.</li>
+    <li><strong>Error:</strong> Si ocurre un problema, como la falta de selección de un activo o datos inválidos.</li>
+  </ul>
+  <h4>8. Manejo de Errores</h4>
+  <p>
+    Si ocurre un error durante la gestión de activos fijos, verás un mensaje de error en la notificación. Algunos errores comunes incluyen:
+  </p>
+  <ul>
+    <li><strong>Activo No Seleccionado:</strong> Debes seleccionar un activo antes de realizar acciones como editar o eliminar.</li>
+    <li><strong>Datos Inválidos:</strong> Algunos campos no cumplen con los requisitos.</li>
+  </ul>
+</div>
+
+<!-- Sección plegable: Gestión de Reportes -->
+<h3 onclick="toggleSection('gestion-reportes')">
+  <span class="arrow">▶</span> 13. Gestión de Reportes
+</h3>
+<div id="gestion-reportes" class="collapsible">
+  <p>
+    El módulo de <strong>Gestión de Reportes</strong> te permite generar y exportar diferentes tipos de reportes financieros y operativos para tu negocio. Aquí te explicamos cómo utilizarlo:
+  </p>
+  <h4>1. Acceso a la Página de Gestión de Reportes</h4>
+  <p>
+    Para acceder a la página de gestión de reportes, selecciona la opción <strong>"Reportes"</strong> en el menú de navegación.
+  </p>
+  <h4>2. Interfaz de Gestión de Reportes</h4>
+  <p>
+    En la página de gestión de reportes, encontrarás las siguientes secciones:
+  </p>
+  <ul>
+    <li><strong>Pestañas de Reportes:</strong> Permite seleccionar el tipo de reporte que deseas generar (Balance General, Compras, Ventas, Pagos a Empleados, Productos Más Vendidos, Alertas de Stock Bajo).</li>
+    <li><strong>Filtros:</strong> Permite seleccionar un intervalo de fechas (hoy, última semana, último mes, último año o personalizado) para filtrar los datos del reporte.</li>
+    <li><strong>Tabla de Datos:</strong> Muestra los datos correspondientes al reporte seleccionado, con opciones de paginación para navegar entre los resultados.</li>
+    <li><strong>Gráficos:</strong> En algunos reportes, como el Balance General, se muestran gráficos para visualizar los datos de manera más clara.</li>
+    <li><strong>Botones de Acción:</strong> Incluye botones para exportar el reporte a Excel.</li>
+  </ul>
+  <h4>3. Seleccionar un Tipo de Reporte</h4>
+  <p>
+    Para seleccionar un tipo de reporte, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Haz clic en la pestaña correspondiente al reporte que deseas generar (por ejemplo, <strong>"Balance General"</strong>).</li>
+    <li>Selecciona el intervalo de fechas en el menú desplegable.</li>
+    <li>Si seleccionas <strong>"Personalizado"</strong>, ingresa las fechas de inicio y fin en los campos correspondientes.</li>
+    <li>Los datos del reporte se actualizarán automáticamente según los filtros seleccionados.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>4. Exportar un Reporte a Excel</h4>
+  <p>
+    Para exportar un reporte a Excel, sigue estos pasos:
+  </p>
+  <ol>
+    <li>Selecciona el tipo de reporte que deseas exportar.</li>
+    <li>Haz clic en el botón <strong>"Exportar a Excel"</strong>.</li>
+    <li>Se descargará automáticamente un archivo Excel con los datos del reporte seleccionado.</li>
+  </ol>
+  <br> <!-- Aquí está el salto de línea visible -->
+  <h4>5. Tipos de Reportes Disponibles</h4>
+  <p>
+    Los tipos de reportes disponibles son:
+  </p>
+  <ul>
+    <li><strong>Balance General:</strong> Muestra un resumen financiero con los ingresos, egresos, utilidad neta y utilidad neta después de pagos.</li>
+    <li><strong>Compras:</strong> Muestra un resumen de las compras realizadas, incluyendo productos comprados, cantidades, precios unitarios y gastos totales.</li>
+    <li><strong>Ventas:</strong> Muestra un resumen de las ventas realizadas, incluyendo productos vendidos, cantidades, precios unitarios e ingresos totales.</li>
+    <li><strong>Pagos a Empleados:</strong> Muestra un resumen de los pagos realizados a los empleados, incluyendo montos, fechas y métodos de pago.</li>
+    <li><strong>Productos Más Vendidos:</strong> Muestra un listado de los productos más vendidos, incluyendo cantidades vendidas e ingresos totales.</li>
+    <li><strong>Alertas de Stock Bajo:</strong> Muestra un listado de productos con stock por debajo del nivel mínimo, incluyendo el stock actual y la diferencia con el nivel mínimo.</li>
+  </ul>
+  <h4>6. Notificaciones</h4>
+  <p>
+    Durante el proceso de generación de reportes, se mostrarán notificaciones para informarte sobre el estado de las operaciones, como:
+  </p>
+  <ul>
+    <li><strong>Éxito:</strong> Cuando un reporte se exporta correctamente.</li>
+    <li><strong>Error:</strong> Si ocurre un problema, como la falta de datos para el intervalo seleccionado.</li>
+  </ul>
+  <h4>7. Manejo de Errores</h4>
+  <p>
+    Si ocurre un error durante la generación de reportes, verás un mensaje de error en la notificación. Algunos errores comunes incluyen:
+  </p>
+  <ul>
+    <li><strong>Datos No Disponibles:</strong> No hay datos para el intervalo de fechas seleccionado.</li>
+    <li><strong>Error de Exportación:</strong> Si no se puede generar el archivo Excel.</li>
+  </ul>
+  
+</div>
+        
+        
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer" class="bg-gray-900 py-8 md:py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+        <!-- About EmpreX -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">EmpreX</h4>
+          <p class="text-sm md:text-base text-gray-400">Optimiza tu negocio con nuestra aplicación integral de gestión.</p>
+          <div class="mt-4">
+          <!-- Íconos de redes sociales comentados -->
+          <!--
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-instagram"></i>
+          </a>
+          -->
+          <!-- Nuevo ícono de WhatsApp -->
+          <a href="https://wa.me/5354588422" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+            <a href="mailto:emprex.dev@gmail.com" class="text-gray-400 hover:text-white">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">Enlaces Rápidos</h4>
+          <ul class="text-gray-400">
+            <li class="mb-2"><a href="index.html" class="hover:text-white">Inicio</a></li>
+            <li class="mb-2"><a href="caracteristicas.html" class="hover:text-white">Características</a></li>
+            <li class="mb-2"><a href="historia.html" class="hover:text-white">Historia</a></li>
+          </ul>
+        </div>
+        <!-- Resources -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">Recursos</h4>
+          <ul class="text-gray-400">
+            <li class="mb-2"><a href="documentacion.html" class="hover:text-white">Documentación</a></li>
+            <li class="mb-2"><a href="preguntasfrecuentes.html" class="hover:text-white">Preguntas Frecuentes</a></li>
+            <li class="mb-2"><a href="soporte.html" class="hover:text-white">Soporte</a></li>
+          </ul>
+        </div>
+        <!-- Newsletter -->
+      <!--
+      <div>
+        <h4 class="text-white font-bold mb-2 md:mb-4">Suscríbete</h4>
+        <p class="text-sm md:text-base text-gray-400 mb-4">Mantente al día con nuestras últimas novedades y actualizaciones.</p>
+        <form>
+          <input type="email" placeholder="Ingresa tu correo" class="bg-gray-800 text-gray-400 py-2 px-4 rounded-l-lg focus:outline-none">
+          <button class="bg-green-500 text-white py-2 px-4 rounded-r-lg hover:bg-green-600">Suscribirse</button>
+        </form>
+      </div>
+      -->
+      </div>
+      <div class="mt-8 border-t border-gray-700 pt-8">
+        <p class="text-sm md:text-base text-gray-400 text-center">© 2024 EmpreX. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botón "Ir arriba" -->
+  <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 opacity-0 hidden transform hover:scale-110">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script>
+    // Función para alternar secciones plegables
+    function toggleSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      const arrow = section.previousElementSibling.querySelector('.arrow');
+      section.classList.toggle('open');
+      arrow.classList.toggle('rotated');
+    }
+
+    // Menú hamburguesa
+    document.getElementById('menu-toggle')?.addEventListener('click', function () {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('active');
+    });
+
+    // Funcionalidad del botón "Ir arriba"
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollToTopButton.classList.remove('hidden');
+        scrollToTopButton.classList.remove('opacity-0');
+      } else {
+        scrollToTopButton.classList.add('opacity-0');
+        setTimeout(() => {
+          scrollToTopButton.classList.add('hidden');
+        }, 300);
+      }
+    });
+
+    scrollToTopButton?.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+</body>
+</html>

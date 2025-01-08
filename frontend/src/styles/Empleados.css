@@ -1,0 +1,182 @@
+/* Contenedor general */
+.empleados-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 10px;
+  overflow-x: hidden; /* Elimina el scroll lateral */
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+td {
+  white-space: nowrap; /* Evita saltos de línea en celdas */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Resaltar fila seleccionada */
+tr.seleccionado {
+  background-color: #d3e2f7; /* Fondo azul claro */
+}
+
+tr:hover {
+  background-color: #f5f5f5; /* Fondo gris claro al pasar el mouse */
+}
+
+/* Botones de acciones */
+.botones-acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.add-button, .edit-button, .delete-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+}
+
+.edit-button {
+  background-color: #4caf50;
+}
+
+.delete-button {
+  background-color: #f44336;
+}
+
+.add-button:hover {
+  background-color: #45a049;
+}
+
+.edit-button:hover {
+  background-color: #45a049;
+}
+
+.delete-button:hover {
+  background-color: #e53935;
+}
+
+/* Altura mínima para filas */
+tr {
+  height: 40px; /* Establece una altura mínima uniforme */
+}
+
+/* Paginación */
+.pagination {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.pagination button.active-page {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Notificaciones */
+.notificacion {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  z-index: 1000;
+  opacity: 1;
+  animation: fadeOut 3s forwards;
+}
+
+.notificacion.success {
+  background-color: #4caf50;
+}
+
+.notificacion.error {
+  background-color: #f44336;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  table {
+    font-size: 12px; /* Ajustar tamaño de fuente en pantallas pequeñas */
+  }
+
+  th, td {
+    padding: 6px 8px; /* Reducir espaciado para pantallas pequeñas */
+  }
+
+  .add-button, .edit-button, .delete-button {
+    font-size: 12px; /* Ajustar tamaño del texto en botones */
+    padding: 6px 10px;
+  }
+}
+
+/* Checkbox y etiquetas */
+.checkbox-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.checkbox-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.checkbox-label span {
+  flex: 1;
+  text-align: left;
+}
+
+.checkbox-label input {
+  margin-left: auto;
+}
+@media (max-with: 768px){
+.hide-mobile {
+  display: none;
+}
+}

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EmpreX - Preguntas Frecuentes. Encuentra respuestas a las preguntas más comunes sobre nuestra solución empresarial.">
+  <meta name="keywords" content="EmpreX, preguntas frecuentes, FAQ, soporte, gestión, inventario, facturación, reportes">
+  <meta name="author" content="EmpreX">  
+  <link rel="icon" type="image/png" href="favicon.png"> <!-- Cambia la ruta y el tipo de archivo según tu caso -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <title>Preguntas Frecuentes - EmpreX</title>
+  <style>
+    /* Asegurar que no haya márgenes ni padding en el body y html */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%; /* Asegura que el body ocupe toda la altura */
+      overflow-x: hidden; /* Evita el desbordamiento horizontal */
+    }
+    /* Estilos personalizados para el contenido de preguntas frecuentes */
+    .faq-content {
+      width: 100%;
+      text-align: justify;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      color: #4a5568;
+    }
+    .faq-content h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #2d3748;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .faq-content h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #2d3748;
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    .faq-content h3 .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+    .faq-content h3 .arrow.rotated {
+      transform: rotate(90deg);
+    }
+    .faq-content .collapsible {
+      display: none; /* Oculta el contenido por defecto */
+      margin-top: 1rem;
+    }
+    .faq-content .collapsible.open {
+      display: block; /* Muestra el contenido cuando está abierto */
+    }
+    .faq-content p {
+      margin-bottom: 1.5rem;
+    }
+    .faq-content ul {
+      list-style-type: disc;
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .faq-content ul li {
+      margin-bottom: 0.5rem;
+    }
+    .faq-content a {
+      color: #065F46;
+      text-decoration: underline;
+    }
+    .faq-content a:hover {
+      color: #6EE7B7;
+    }
+    /* Estilos para el main */
+    .main-content {
+      width: 100%;
+      padding: 2rem 1rem;
+      min-height: calc(100vh - 200px); /* Asegura que el main ocupe el espacio restante */
+    }
+    /* Estilos para el menú hamburguesa en móviles */
+    @media (max-width: 767px) {
+      #menu {
+        position: absolute;
+        top: 100%; /* Posiciona el menú debajo del navbar */
+        right: 0;
+        background-color: #065F46;
+        width: 100%;
+        z-index: 1000;
+        display: none; /* Ocultar por defecto */
+        flex-direction: column;
+        align-items: center; /* Centra los elementos horizontalmente */
+        padding: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      #menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra los elementos horizontalmente */
+      }
+      #menu ul li {
+        width: auto; /* Ajusta el ancho al contenido */
+        padding: 1rem 0; /* Espaciado vertical */
+        text-align: center; /* Centra el texto dentro del li */
+      }
+      #menu ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        display: inline-block; /* Permite que el texto se centre correctamente */
+      }
+      #menu ul li a:hover {
+        color: #6EE7B7;
+      }
+      #menu.active {
+        display: flex;
+      }
+    }
+    /* Ajustes para pantallas grandes */
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 1200px;
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-900 bg-white">
+  <!-- Navbar -->
+  <nav class="bg-[#065F46] py-4 px-6 flex justify-between items-center relative">
+    <div class="flex items-center">
+      <a href="index.html">
+        <img src="logoblanco.png" alt="Logo de EmpreX" class="h-8 mr-4">
+      </a>
+      <a href="index.html" class="text-white font-bold text-xl">EmpreX</a>
+    </div>
+    <!-- Menú hamburguesa para móviles -->
+    <button id="menu-toggle" class="text-white focus:outline-none md:hidden">
+      <i class="fas fa-bars text-2xl"></i>
+    </button>
+    <!-- Menú de navegación -->
+    <ul id="menu" class="hidden md:flex space-x-6 text-white">
+      <li><a href="index.html" class="hover:text-[#6EE7B7]">Inicio</a></li>
+      <li><a href="caracteristicas.html" class="hover:text-[#6EE7B7]">Características</a></li>
+      <li><a href="historia.html" class="hover:text-[#6EE7B7]">Historia</a></li>
+      <li><a href="#footer" class="hover:text-[#6EE7B7]">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-cover bg-center bg-no-repeat" style="background-image: url('faq.jpg');">
+    <div class="bg-black bg-opacity-50 py-16 md:py-24 px-4 md:px-16">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-3xl md:text-6xl font-bold text-white mb-4">Preguntas Frecuentes</h1>
+        <p class="text-base md:text-xl text-gray-300 mb-8">Encuentra respuestas a las preguntas más comunes sobre EmpreX.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenido principal de la página de preguntas frecuentes -->
+  <main class="main-content">
+    <div class="container mx-auto px-4">
+      <div class="faq-content">
+        <h2>Preguntas Frecuentes</h2>
+        <p>
+          Aquí encontrarás respuestas a las preguntas más comunes sobre EmpreX. Si no encuentras lo que buscas, no dudes en contactarnos.
+        </p>
+
+        <!-- Nueva sección: Contratación de servicios -->
+        <h3 onclick="toggleSection('contratacion-servicios')">
+          <span class="arrow">▶</span> ¿Cómo contrato los servicios de EmpreX?
+        </h3>
+        <div id="contratacion-servicios" class="collapsible">
+          <p>
+            Contratar los servicios de EmpreX es muy sencillo. Te ofrecemos un <strong>periodo de prueba gratuito de 7 días</strong> para que puedas explorar todas las funcionalidades de la plataforma sin compromiso. Para comenzar:
+          </p>
+          <ol>
+            <li>Contacta a nuestro equipo a través de <a href="mailto:emprex.dev@gmail.com">emprex.dev@gmail.com</a> o llámanos al <strong>+53 54588422</strong>.</li>
+            <li>Te brindaremos acceso a la plataforma para que puedas probarla durante <strong>7 días gratis</strong>.</li>
+            <li>Si decides continuar, puedes contratar una <strong>licencia de uso anual</strong> que te permitirá acceder a todas las funcionalidades de EmpreX.</li>
+          </ol>
+          <p>
+            Nuestro equipo estará disponible para guiarte en todo el proceso y resolver cualquier duda que tengas.
+          </p>
+        </div>
+
+        <!-- Sección plegable: Inicio de Sesión -->
+        <h3 onclick="toggleSection('inicio-sesion')">
+          <span class="arrow">▶</span> ¿Cómo inicio sesión en EmpreX?
+        </h3>
+        <div id="inicio-sesion" class="collapsible">
+          <p>
+            Para iniciar sesión en EmpreX, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Ingresa a la URL de la plataforma EmpreX.</li>
+            <li>Completa los campos de <strong>correo electrónico</strong> y <strong>contraseña</strong>.</li>
+            <li>Haz clic en el botón <strong>"Entrar"</strong>.</li>
+          </ol>
+          <p>
+            Si tus credenciales son correctas, serás redirigido al <strong>Dashboard</strong> de EmpreX.
+          </p>
+        </div>
+
+        <!-- Sección plegable: Gestión de Usuarios -->
+        <h3 onclick="toggleSection('gestion-usuarios')">
+          <span class="arrow">▶</span> ¿Cómo gestiono usuarios en EmpreX?
+        </h3>
+        <div id="gestion-usuarios" class="collapsible">
+          <p>
+            Para gestionar usuarios en EmpreX, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Accede a la sección <strong>"Usuarios"</strong> en el menú de navegación.</li>
+            <li>Desde allí, puedes agregar, editar o eliminar usuarios.</li>
+            <li>Para agregar un nuevo usuario, haz clic en <strong>"Agregar"</strong> y completa el formulario.</li>
+          </ol>
+        </div>
+
+        <!-- Sección plegable: Gestión de Inventario -->
+        <h3 onclick="toggleSection('gestion-inventario')">
+          <span class="arrow">▶</span> ¿Cómo gestiono el inventario en EmpreX?
+        </h3>
+        <div id="gestion-inventario" class="collapsible">
+          <p>
+            Para gestionar el inventario en EmpreX, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Accede a la sección <strong>"Inventario"</strong> en el menú de navegación.</li>
+            <li>Desde allí, puedes ver la lista de productos, exportar el inventario a Excel o descargar códigos QR.</li>
+            <li>Para descargar un código QR, selecciona un producto y haz clic en <strong>"Descargar Código QR"</strong>.</li>
+          </ol>
+        </div>
+
+        <!-- Sección plegable: Facturación -->
+        <h3 onclick="toggleSection('facturacion')">
+          <span class="arrow">▶</span> ¿Cómo facturo con EmpreX?
+        </h3>
+        <div id="facturacion" class="collapsible">
+          <p>
+            Para facturar con EmpreX, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Accede a la sección <strong>"Caja"</strong> en el menú de navegación.</li>
+            <li>Agrega productos al carrito utilizando el escáner de códigos QR o manualmente.</li>
+            <li>Selecciona el método de pago y haz clic en <strong>"Confirmar Venta"</strong>.</li>
+          </ol>
+        </div>
+
+        <!-- Sección plegable: Reportes -->
+        <h3 onclick="toggleSection('reportes')">
+          <span class="arrow">▶</span> ¿Cómo genero reportes en EmpreX?
+        </h3>
+        <div id="reportes" class="collapsible">
+          <p>
+            Para generar reportes en EmpreX, sigue estos pasos:
+          </p>
+          <ol>
+            <li>Accede a la sección <strong>"Reportes"</strong> en el menú de navegación.</li>
+            <li>Selecciona el tipo de reporte que deseas generar (ventas, inventario, etc.).</li>
+            <li>Filtra los resultados por fecha y haz clic en <strong>"Exportar a Excel"</strong> si lo necesitas.</li>
+          </ol>
+        </div>
+
+        <!-- Sección plegable: Soporte -->
+        <h3 onclick="toggleSection('soporte')">
+          <span class="arrow">▶</span> ¿Cómo obtengo soporte técnico?
+        </h3>
+        <div id="soporte" class="collapsible">
+          <p>
+            Si necesitas soporte técnico, puedes contactarnos a través de:
+          </p>
+          <ul>
+            <li><strong>Correo electrónico:</strong> <a href="mailto:emprex.dev@gmail.com">emprex.dev@gmail.com</a></li>
+            <li><strong>Teléfono:</strong> +53 54588422</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer" class="bg-gray-900 py-8 md:py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+        <!-- About EmpreX -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">EmpreX</h4>
+          <p class="text-sm md:text-base text-gray-400">Optimiza tu negocio con nuestra aplicación integral de gestión.</p>
+          <div class="mt-4">
+          <!-- Íconos de redes sociales comentados -->
+          <!--
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-instagram"></i>
+          </a>
+          -->
+          <!-- Nuevo ícono de WhatsApp -->
+          <a href="https://wa.me/5354588422" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+            <a href="mailto:emprex.dev@gmail.com" class="text-gray-400 hover:text-white">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">Enlaces Rápidos</h4>
+          <ul class="text-gray-400">
+            <li class="mb-2"><a href="index.html" class="hover:text-white">Inicio</a></li>
+            <li class="mb-2"><a href="caracteristicas.html" class="hover:text-white">Características</a></li>
+            <li class="mb-2"><a href="historia.html" class="hover:text-white">Historia</a></li>
+          </ul>
+        </div>
+        <!-- Resources -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">Recursos</h4>
+          <ul class="text-gray-400">
+            <li class="mb-2"><a href="documentacion.html" class="hover:text-white">Documentación</a></li>
+            <li class="mb-2"><a href="preguntasfrecuentes.html" class="hover:text-white">Preguntas Frecuentes</a></li>
+            <li class="mb-2"><a href="soporte.html" class="hover:text-white">Soporte</a></li>
+          </ul>
+        </div>
+        <!-- Newsletter -->
+      <!--
+      <div>
+        <h4 class="text-white font-bold mb-2 md:mb-4">Suscríbete</h4>
+        <p class="text-sm md:text-base text-gray-400 mb-4">Mantente al día con nuestras últimas novedades y actualizaciones.</p>
+        <form>
+          <input type="email" placeholder="Ingresa tu correo" class="bg-gray-800 text-gray-400 py-2 px-4 rounded-l-lg focus:outline-none">
+          <button class="bg-green-500 text-white py-2 px-4 rounded-r-lg hover:bg-green-600">Suscribirse</button>
+        </form>
+      </div>
+      -->
+      </div>
+      <div class="mt-8 border-t border-gray-700 pt-8">
+        <p class="text-sm md:text-base text-gray-400 text-center">© 2024 EmpreX. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botón "Ir arriba" -->
+  <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 opacity-0 hidden transform hover:scale-110">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script>
+    // Función para alternar secciones plegables
+    function toggleSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      const arrow = section.previousElementSibling.querySelector('.arrow');
+      section.classList.toggle('open');
+      arrow.classList.toggle('rotated');
+    }
+
+    // Menú hamburguesa
+    document.getElementById('menu-toggle')?.addEventListener('click', function () {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('active');
+    });
+
+    // Funcionalidad del botón "Ir arriba"
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollToTopButton.classList.remove('hidden');
+        scrollToTopButton.classList.remove('opacity-0');
+      } else {
+        scrollToTopButton.classList.add('opacity-0');
+        setTimeout(() => {
+          scrollToTopButton.classList.add('hidden');
+        }, 300);
+      }
+    });
+
+    scrollToTopButton?.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+</body>
+</html>
