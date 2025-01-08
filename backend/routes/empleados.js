@@ -3,7 +3,7 @@ const supabase = require("../database");
 
 const router = express.Router();
 
-// Crear un empleado
+// Crear un empleados
 router.post("/", async (req, res) => {
     const {
         nombre, puesto, salario, metodo_pago, sistema_pago,
