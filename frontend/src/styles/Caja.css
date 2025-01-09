@@ -106,7 +106,7 @@
     font-size: 12px; /* Ajusta el tamaño del texto para pantallas pequeñas */
   }
 }
-.botones-acciones {
+.botones-caja {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;

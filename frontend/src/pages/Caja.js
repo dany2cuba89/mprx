@@ -497,7 +497,7 @@ function Caja() {
           </>
         )}
       </div>
-      <div className="botones-acciones">
+      <div className="botones-caja">
         <button className="add-button" onClick={confirmarVentaHandler} disabled={isProcessing}>
           {isProcessing ? "Procesando..." : "Confirmar Venta"}
         </button>

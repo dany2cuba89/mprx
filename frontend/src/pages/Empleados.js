@@ -11,6 +11,7 @@ import {
 import Table from "../components/Table";
 import Modal from "../components/Modal";
 import { formatFecha } from "../utils/format";
+import { toast } from "react-toastify";
 import "../styles/Empleados.css";
 
 function Empleados() {
@@ -21,53 +22,27 @@ function Empleados() {
   const empleadosPorPagina = 5;
   const [modalAbierto, setModalAbierto] = useState(false);
   const [empleadoEnEdicion, setEmpleadoEnEdicion] = useState(null);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false); // Estado del modal de confirmación
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [empleadoActual, setEmpleadoActual] = useState({
-  nombre_completo: "",
-  puesto: "",
-  salario: "",
-  correo: "",
-  metodo_pago: "",
-  sistema_pago: "mensual", // Valor por defecto
-  numero_tarjeta: null,  
-  fecha_contratacion: "",
-  activo: true,
+    nombre_completo: "",
+    puesto: "",
+    salario: "",
+    correo: "",
+    metodo_pago: "",
+    sistema_pago: "mensual",
+    numero_tarjeta: null,
+    fecha_contratacion: "",
+    activo: true,
   });
   const [modalPagoAbierto, setModalPagoAbierto] = useState(false);
   const [pagoActual, setPagoActual] = useState({
-  monto: "",
-  intervalo_pago: "", // Nueva propiedad para el intervalo de pago
-  fecha_inicio_periodo: "",
-  fecha_fin_periodo: "",
-  notas: "",
-});
-
-  const manejarCambioPago = (e) => {
-  const { name, value } = e.target;
-  setPagoActual((prev) => ({ ...prev, [name]: value }));
-};
-  const abrirModalPago = () => {
-  console.log("Empleado seleccionado:", empleadoEnEdicion);
-  if (!empleadoEnEdicion) {
-    mostrarNotificacion("error", "Debe seleccionar un empleado.");
-    return;
-  }
-  setPagoActual({
     monto: "",
+    intervalo_pago: "",
     fecha_inicio_periodo: "",
     fecha_fin_periodo: "",
     notas: "",
   });
-  setModalPagoAbierto(true);
-  console.log("Estado modalPagoAbierto:", true);
-};
-
-
-  const cerrarModalPago = () => setModalPagoAbierto(false);
-
-
   const [errores, setErrores] = useState({});
-  const [notificacion, setNotificacion] = useState(null);
 
   useEffect(() => {
     cargarEmpleados();
@@ -83,7 +58,7 @@ function Empleados() {
       setEmpleados(data);
       setTotalPaginas(Math.ceil(data.length / empleadosPorPagina));
     } catch (err) {
-      mostrarNotificacion("error", "Error al cargar empleados.");
+      toast.error("Error al cargar empleados.");
     }
   };
 
@@ -99,34 +74,30 @@ function Empleados() {
     }
   };
 
-  const mostrarNotificacion = (tipo, mensaje) => {
-    setNotificacion({ tipo, mensaje });
-    setTimeout(() => setNotificacion(null), 3000);
-  };
   const openDeleteConfirmModal = () => {
     if (!empleadoEnEdicion) {
-      mostrarNotificacion("error", "Debe seleccionar un empleado para eliminar.");
+      toast.error("Debe seleccionar un empleado para eliminar.");
     } else {
-      setIsConfirmModalOpen(true); // Abre el modal de confirmación
+      setIsConfirmModalOpen(true);
     }
   };
 
   const closeDeleteConfirmModal = () => {
-    setIsConfirmModalOpen(false); // Cierra el modal de confirmación
+    setIsConfirmModalOpen(false);
   };
 
   const handleDeleteConfirmation = async () => {
     try {
       if (empleadoEnEdicion) {
         await deleteEmpleado(empleadoEnEdicion.id);
-        mostrarNotificacion("success", "Empleado eliminado exitosamente.");
-        cargarEmpleados(); // Actualiza la lista de empleados
-        setEmpleadoEnEdicion(null); // Limpia la selección
+        toast.success("Empleado eliminado exitosamente.");
+        cargarEmpleados();
+        setEmpleadoEnEdicion(null);
       }
     } catch (err) {
-      mostrarNotificacion("error", `Error al eliminar empleado: ${err.message}`);
+      toast.error(`Error al eliminar empleado: ${err.message}`);
     }
-    closeDeleteConfirmModal(); // Cierra el modal tras la confirmación
+    closeDeleteConfirmModal();
   };
 
   const manejarCambio = (e) => {
@@ -143,46 +114,41 @@ function Empleados() {
       }));
     }
   };
-  
-const realizarPago = async (empleadoId, pago) => {
-  try {
-    if (
-      !empleadoId ||
-      !pago.monto ||
-      !pago.intervalo_pago || // Validar intervalo_pago
-      !pago.fecha_inicio_periodo ||
-      !pago.fecha_fin_periodo
-    ) {
-      mostrarNotificacion("error", "Debe completar todos los campos del pago.");
-      return;
+
+  const realizarPago = async (empleadoId, pago) => {
+    try {
+      if (
+        !empleadoId ||
+        !pago.monto ||
+        !pago.intervalo_pago ||
+        !pago.fecha_inicio_periodo ||
+        !pago.fecha_fin_periodo
+      ) {
+        toast.error("Debe completar todos los campos del pago.");
+        return;
+      }
+
+      await addPagoEmpleado({
+        empleado_id: empleadoId,
+        nombre_empleado: empleadoEnEdicion?.nombre_completo || "N/A",
+        monto: parseFloat(pago.monto),
+        metodo_pago: empleadoEnEdicion?.metodo_pago || "efectivo",
+        numero_tarjeta:
+          empleadoEnEdicion?.metodo_pago === "transferencia"
+            ? empleadoEnEdicion?.numero_tarjeta
+            : null,
+        intervalo_pago: pago.intervalo_pago,
+        fecha_inicio_periodo: pago.fecha_inicio_periodo,
+        fecha_fin_periodo: pago.fecha_fin_periodo,
+        notas: pago.notas || "",
+      });
+
+      toast.success("Pago registrado exitosamente.");
+      cerrarModalPago();
+    } catch (err) {
+      toast.error(`Error al registrar el pago: ${err.message}`);
     }
-
-    await addPagoEmpleado({
-      empleado_id: empleadoId,
-      nombre_empleado: empleadoEnEdicion?.nombre_completo || "N/A",
-      monto: parseFloat(pago.monto),
-      metodo_pago: empleadoEnEdicion?.metodo_pago || "efectivo",
-      numero_tarjeta:
-        empleadoEnEdicion?.metodo_pago === "transferencia"
-          ? empleadoEnEdicion?.numero_tarjeta
-          : null,
-      intervalo_pago: pago.intervalo_pago, // Asegúrate de incluirlo aquí
-      fecha_inicio_periodo: pago.fecha_inicio_periodo,
-      fecha_fin_periodo: pago.fecha_fin_periodo,
-      notas: pago.notas || "",
-    });
-
-    mostrarNotificacion("success", "Pago registrado exitosamente.");
-    cerrarModalPago();
-  } catch (err) {
-    mostrarNotificacion("error", `Error al registrar el pago: ${err.message}`);
-  }
-};
-
-
-
-
-  
+  };
 
   const validarFormulario = async () => {
     const nuevosErrores = {};
@@ -195,8 +161,8 @@ const realizarPago = async (empleadoId, pago) => {
       nuevosErrores.nombre_completo = "Este nombre ya existe en la base de datos.";
     }
     if (!empleadoActual.sistema_pago) {
-  nuevosErrores.sistema_pago = "El sistema de pago es obligatorio.";
-	}
+      nuevosErrores.sistema_pago = "El sistema de pago es obligatorio.";
+    }
 
     if (!empleadoActual.correo.trim()) {
       nuevosErrores.correo = "El correo es obligatorio.";
@@ -226,19 +192,19 @@ const realizarPago = async (empleadoId, pago) => {
     try {
       if (empleadoEnEdicion) {
         await updateEmpleado(empleadoEnEdicion.id, empleadoActual);
-        mostrarNotificacion("success", "Empleado actualizado exitosamente.");
+        toast.success("Empleado actualizado exitosamente.");
       } else {
         await addEmpleado({
           ...empleadoActual,
           fecha_contratacion:
             empleadoActual.fecha_contratacion || new Date().toISOString().split("T")[0],
         });
-        mostrarNotificacion("success", "Empleado agregado exitosamente.");
+        toast.success("Empleado agregado exitosamente.");
       }
       cerrarModal();
       cargarEmpleados();
     } catch (err) {
-      mostrarNotificacion("error", err.message);
+      toast.error(err.message);
     }
   };
 
@@ -255,17 +221,16 @@ const realizarPago = async (empleadoId, pago) => {
   const abrirModal = () => {
     setEmpleadoEnEdicion(null);
     setEmpleadoActual({
-  nombre_completo: "",
-  puesto: "",
-  salario: "",
-  correo: "",
-  metodo_pago: "efectivo",
-  sistema_pago: "mensual", // Valor predeterminado
-  numero_tarjeta: null,
-  fecha_contratacion: "",
-  activo: true,
-});
-
+      nombre_completo: "",
+      puesto: "",
+      salario: "",
+      correo: "",
+      metodo_pago: "efectivo",
+      sistema_pago: "mensual",
+      numero_tarjeta: null,
+      fecha_contratacion: "",
+      activo: true,
+    });
     setErrores({});
     setModalAbierto(true);
   };
@@ -275,52 +240,50 @@ const realizarPago = async (empleadoId, pago) => {
     setEmpleadoEnEdicion(null);
     setErrores({});
   };
-  
-  
 
+  const abrirModalPago = () => {
+    if (!empleadoEnEdicion) {
+      toast.error("Debe seleccionar un empleado.");
+      return;
+    }
+    setPagoActual({
+      monto: "",
+      fecha_inicio_periodo: "",
+      fecha_fin_periodo: "",
+      notas: "",
+    });
+    setModalPagoAbierto(true);
+  };
 
+  const cerrarModalPago = () => setModalPagoAbierto(false);
 
   return (
     <div className="empleados-container">
       <h2>Gestión de Empleados</h2>
 
-      {notificacion && (
-        <div className={`notificacion ${notificacion.tipo}`}>
-          {notificacion.mensaje}
-        </div>
-      )}
-
       <div className="tabla-container">
         <Table
-  headers={[
-    "Nombre",
-    "Puesto",
-    "Salario",
-    "Correo Electrónico",
-    //"Método de Pago",
-    //"Sistema de Pago",
-    //"Número de Tarjeta",
-    "Fecha de Contratación",
-    "Activo",
-  ]}
-  data={empleadosPaginados.map((empleado) => ({
-  nombre: empleado.nombre_completo || "N/A",
-  puesto: empleado.puesto || "N/A",
-  salario: empleado.salario ? parseFloat(empleado.salario).toFixed(2) : "N/A",
-  "correo electrónico": empleado.correo || "N/A",
-  "método de pago": empleado.metodo_pago || "N/A",
-  "sistema de pago": empleado.sistema_pago || "N/A",
-  "número de tarjeta": empleado.numero_tarjeta || "N/A",
-  "fecha de contratación": empleado.fecha_contratacion
-    ? formatFecha(empleado.fecha_contratacion)
-    : "N/A",
-  activo: typeof empleado.activo === "boolean" ? (empleado.activo ? "Sí" : "No") : "N/A",
-  onClick: () => setEmpleadoEnEdicion(empleado), // Conecta la fila al estado seleccionado
-  seleccionado: empleadoEnEdicion?.id === empleado.id, // Resalta la fila seleccionada
-}))}
-
-
-/>
+          headers={[
+            "Nombre",
+            "Puesto",
+            "Salario",
+            "Correo Electrónico",
+            "Fecha de Contratación",
+            "Activo",
+          ]}
+          data={empleadosPaginados.map((empleado) => ({
+            nombre: empleado.nombre_completo || "N/A",
+            puesto: empleado.puesto || "N/A",
+            salario: empleado.salario ? parseFloat(empleado.salario).toFixed(2) : "N/A",
+            "correo electrónico": empleado.correo || "N/A",
+            "fecha de contratación": empleado.fecha_contratacion
+              ? formatFecha(empleado.fecha_contratacion)
+              : "N/A",
+            activo: typeof empleado.activo === "boolean" ? (empleado.activo ? "Sí" : "No") : "N/A",
+            onClick: () => setEmpleadoEnEdicion(empleado),
+            seleccionado: empleadoEnEdicion?.id === empleado.id,
+          }))}
+        />
       </div>
 
       <div className="pagination">
@@ -348,36 +311,32 @@ const realizarPago = async (empleadoId, pago) => {
       </div>
 
       <div className="botones-acciones">
-  <button className="add-button" onClick={abrirModal}>
-    Agregar
-  </button>
-  <button
-    className="add-button"
-    disabled={!empleadoEnEdicion}
-    onClick={() => iniciarEdicion(empleadoEnEdicion)}
-  >
-    Editar
+        <button className="add-button" onClick={abrirModal}>
+          Agregar
+        </button>
+        <button
+          className="add-button"
+          disabled={!empleadoEnEdicion}
+          onClick={() => iniciarEdicion(empleadoEnEdicion)}
+        >
+          Editar
+        </button>
+        <button
+          className="add-button"
+          disabled={!empleadoEnEdicion}
+          onClick={abrirModalPago}
+        >
+          Realizar Pago
+        </button>
+        <button
+          className="delete-button"
+          disabled={!empleadoEnEdicion}
+          onClick={openDeleteConfirmModal}
+        >
+          Eliminar
+        </button>
+      </div>
 
-  </button>
-  <button
-  className="add-button"
-  disabled={!empleadoEnEdicion}
-  onClick={abrirModalPago} // Abre el modal de pago
->
-  Realizar Pago
-</button>
-
-
-  <button
-    className="delete-button"
-    disabled={!empleadoEnEdicion}
-    onClick={openDeleteConfirmModal}
-  >
-    Eliminar
-  </button>
-</div>
-
-{/* Modal de confirmación */}
       {isConfirmModalOpen && (
         <Modal abierto={isConfirmModalOpen} cerrarModal={closeDeleteConfirmModal}>
           <h2>Confirmar Eliminación</h2>
@@ -395,193 +354,192 @@ const realizarPago = async (empleadoId, pago) => {
           </div>
         </Modal>
       )}
+
       <Modal abierto={modalAbierto} cerrarModal={cerrarModal}>
-  <h2>{empleadoEnEdicion ? "Editar Empleado" : "Agregar Empleado"}</h2>
-  <h4><label>Nombre completo</label></h4>
-  <input
-    type="text"
-    name="nombre_completo"
-    placeholder="Nombre completo"
-    value={empleadoActual.nombre_completo}
-    onChange={manejarCambio}
-/>
-{errores.nombre_completo && <p className="error-text">{errores.nombre_completo}</p>}
+        <h2>{empleadoEnEdicion ? "Editar Empleado" : "Agregar Empleado"}</h2>
+        <h4><label>Nombre completo</label></h4>
+        <input
+          type="text"
+          name="nombre_completo"
+          placeholder="Nombre completo"
+          value={empleadoActual.nombre_completo}
+          onChange={manejarCambio}
+        />
+        {errores.nombre_completo && <p className="error-text">{errores.nombre_completo}</p>}
 
-<h4><label>Puesto</label></h4>
-<input
-  type="text"
-  name="puesto"
-  placeholder="Puesto"
-  value={empleadoActual.puesto}
-  onChange={manejarCambio}
-/>
-<h4><label>Salario</label></h4>
-<input
-  type="number"
-  name="salario"
-  placeholder="Salario"
-  value={empleadoActual.salario}
-  onChange={manejarCambio}
-/>
-<h4><label>Correo Electrónico</label></h4>
-<input
-  type="email"
-  name="correo"
-  placeholder="Correo electrónico"
-  value={empleadoActual.correo}
-  onChange={manejarCambio}
-/>
-{errores.correo && <p className="error-text">{errores.correo}</p>}
+        <h4><label>Puesto</label></h4>
+        <input
+          type="text"
+          name="puesto"
+          placeholder="Puesto"
+          value={empleadoActual.puesto}
+          onChange={manejarCambio}
+        />
 
-<h4><label>Método de Pago</label></h4>
-<select
-  name="metodo_pago"
-  value={empleadoActual.metodo_pago}
-  onChange={manejarCambio}
->
-  <option value="">Selecciona un método de pago</option>
-  <option value="transferencia">Transferencia</option>
-  <option value="efectivo">Efectivo</option>
-</select>
+        <h4><label>Salario</label></h4>
+        <input
+          type="number"
+          name="salario"
+          placeholder="Salario"
+          value={empleadoActual.salario}
+          onChange={manejarCambio}
+        />
 
-{empleadoActual.metodo_pago === "transferencia" && (
-  <>
-    <h4><label>Número de Tarjeta</label></h4>
-    <input
-      type="text"
-      name="numero_tarjeta"
-      placeholder="Número de tarjeta"
-      value={empleadoActual.numero_tarjeta || ""}
-      onChange={manejarCambio}
-    />
-    {errores.numero_tarjeta && <p className="error-text">{errores.numero_tarjeta}</p>}
-  </>
-)}
-<h4><label>Sistema de Pago</label></h4>
-<select
-  name="sistema_pago"
-  value={empleadoActual.sistema_pago}
-  onChange={manejarCambio}
->
-  <option value="diario">Diario</option>
-  <option value="semanal">Semanal</option>
-  <option value="quincenal">Quincenal</option>
-  <option value="mensual">Mensual</option>
-</select>
-<h4><label>Fecha de Contratación</label></h4>
-<input
-  type="date"
-  name="fecha_contratacion"
-  value={empleadoActual.fecha_contratacion || ""}
-  onChange={manejarCambio}
-/>
-<div className="checkbox-container">
-  <label className="checkbox-label">
-    <span>Activo</span>
-    <input
-      type="checkbox"
-      name="activo"
-      checked={empleadoActual.activo}
-      onChange={manejarCambio}
-    />
-  </label>
-</div>
-<div className="modal-buttons">
-  <button onClick={agregarOEditarEmpleado} className="add-button">
-    {empleadoEnEdicion ? "Guardar Cambios" : "Agregar Empleado"}
-  </button>
-  <button onClick={cerrarModal} className="cancel-button">
-    Cancelar
-  </button>
-</div>
-</Modal>
-<Modal abierto={modalPagoAbierto} cerrarModal={cerrarModalPago}>
-  <h3>Realizar Pago</h3>
-  
-  {/* Campo Monto */}
-  <input
-    type="number"
-    name="monto"
-    placeholder="Monto a pagar"
-    value={pagoActual.monto || ""}
-    onChange={manejarCambioPago}
-  />
+        <h4><label>Correo Electrónico</label></h4>
+        <input
+          type="email"
+          name="correo"
+          placeholder="Correo electrónico"
+          value={empleadoActual.correo}
+          onChange={manejarCambio}
+        />
+        {errores.correo && <p className="error-text">{errores.correo}</p>}
 
-  {/* Campo Intervalo de Pago */}
-  <select
-    name="intervalo_pago"
-    value={pagoActual.intervalo_pago || ""}
-    onChange={manejarCambioPago}
-  >
-    <option value="">Seleccionar intervalo</option>
-    <option value="diario">Diario</option>
-    <option value="semanal">Semanal</option>
-    <option value="quincenal">Quincenal</option>
-    <option value="mensual">Mensual</option>
-  </select>
-  {errores.intervalo_pago && <p className="error-text">{errores.intervalo_pago}</p>}
+        <h4><label>Método de Pago</label></h4>
+        <select
+          name="metodo_pago"
+          value={empleadoActual.metodo_pago}
+          onChange={manejarCambio}
+        >
+          <option value="">Selecciona un método de pago</option>
+          <option value="transferencia">Transferencia</option>
+          <option value="efectivo">Efectivo</option>
+        </select>
 
-  {/* Campo Período de Pago */}
-  <label>Período Pagado:</label>
-  <input
-    type="date"
-    name="fecha_inicio_periodo"
-    placeholder="Inicio del período"
-    value={pagoActual.fecha_inicio_periodo || ""}
-    onChange={manejarCambioPago}
-  />
-  <input
-    type="date"
-    name="fecha_fin_periodo"
-    placeholder="Fin del período"
-    value={pagoActual.fecha_fin_periodo || ""}
-    onChange={manejarCambioPago}
-  />
+        {empleadoActual.metodo_pago === "transferencia" && (
+          <>
+            <h4><label>Número de Tarjeta</label></h4>
+            <input
+              type="text"
+              name="numero_tarjeta"
+              placeholder="Número de tarjeta"
+              value={empleadoActual.numero_tarjeta || ""}
+              onChange={manejarCambio}
+            />
+            {errores.numero_tarjeta && <p className="error-text">{errores.numero_tarjeta}</p>}
+          </>
+        )}
 
-  {/* Campo Método de Pago */}
-  <select
-    name="metodo_pago"
-    value={pagoActual.metodo_pago || "efectivo"}
-    onChange={manejarCambioPago}
-  >
-    <option value="efectivo">Efectivo</option>
-    <option value="transferencia">Transferencia</option>
-  </select>
+        <h4><label>Sistema de Pago</label></h4>
+        <select
+          name="sistema_pago"
+          value={empleadoActual.sistema_pago}
+          onChange={manejarCambio}
+        >
+          <option value="diario">Diario</option>
+          <option value="semanal">Semanal</option>
+          <option value="quincenal">Quincenal</option>
+          <option value="mensual">Mensual</option>
+        </select>
 
-  {/* Campo Número de Tarjeta */}
-  {pagoActual.metodo_pago === "transferencia" && (
-    <input
-      type="text"
-      name="numero_tarjeta"
-      placeholder="Número de tarjeta"
-      value={pagoActual.numero_tarjeta || ""}
-      onChange={manejarCambioPago}
-    />
-  )}
+        <h4><label>Fecha de Contratación</label></h4>
+        <input
+          type="date"
+          name="fecha_contratacion"
+          value={empleadoActual.fecha_contratacion || ""}
+          onChange={manejarCambio}
+        />
 
-  {/* Campo Notas */}
-  <textarea
-    name="notas"
-    placeholder="Notas (opcional)"
-    value={pagoActual.notas || ""}
-    onChange={manejarCambioPago}
-  />
+        <div className="checkbox-container">
+          <label className="checkbox-label">
+            <span>Activo</span>
+            <input
+              type="checkbox"
+              name="activo"
+              checked={empleadoActual.activo}
+              onChange={manejarCambio}
+            />
+          </label>
+        </div>
 
-  {/* Botones de Confirmación y Cancelación */}
-  <div className="modal-buttons">
-    <button
-      className="add-button"
-      onClick={() => realizarPago(empleadoEnEdicion?.id, pagoActual)}
-    >
-      Confirmar Pago
-    </button>
-    <button className="cancel-button" onClick={cerrarModalPago}>
-      Cancelar
-    </button>
-  </div>
-</Modal>
+        <div className="modal-buttons">
+          <button onClick={agregarOEditarEmpleado} className="add-button">
+            {empleadoEnEdicion ? "Guardar Cambios" : "Agregar Empleado"}
+          </button>
+          <button onClick={cerrarModal} className="cancel-button">
+            Cancelar
+          </button>
+        </div>
+      </Modal>
 
+      <Modal abierto={modalPagoAbierto} cerrarModal={cerrarModalPago}>
+        <h3>Realizar Pago</h3>
+        <input
+          type="number"
+          name="monto"
+          placeholder="Monto a pagar"
+          value={pagoActual.monto || ""}
+          onChange={(e) => setPagoActual({ ...pagoActual, monto: e.target.value })}
+        />
+
+        <select
+          name="intervalo_pago"
+          value={pagoActual.intervalo_pago || ""}
+          onChange={(e) => setPagoActual({ ...pagoActual, intervalo_pago: e.target.value })}
+        >
+          <option value="">Seleccionar intervalo</option>
+          <option value="diario">Diario</option>
+          <option value="semanal">Semanal</option>
+          <option value="quincenal">Quincenal</option>
+          <option value="mensual">Mensual</option>
+        </select>
+
+        <label>Período Pagado:</label>
+        <input
+          type="date"
+          name="fecha_inicio_periodo"
+          placeholder="Inicio del período"
+          value={pagoActual.fecha_inicio_periodo || ""}
+          onChange={(e) => setPagoActual({ ...pagoActual, fecha_inicio_periodo: e.target.value })}
+        />
+        <input
+          type="date"
+          name="fecha_fin_periodo"
+          placeholder="Fin del período"
+          value={pagoActual.fecha_fin_periodo || ""}
+          onChange={(e) => setPagoActual({ ...pagoActual, fecha_fin_periodo: e.target.value })}
+        />
+
+        <select
+          name="metodo_pago"
+          value={pagoActual.metodo_pago || "efectivo"}
+          onChange={(e) => setPagoActual({ ...pagoActual, metodo_pago: e.target.value })}
+        >
+          <option value="efectivo">Efectivo</option>
+          <option value="transferencia">Transferencia</option>
+        </select>
+
+        {pagoActual.metodo_pago === "transferencia" && (
+          <input
+            type="text"
+            name="numero_tarjeta"
+            placeholder="Número de tarjeta"
+            value={pagoActual.numero_tarjeta || ""}
+            onChange={(e) => setPagoActual({ ...pagoActual, numero_tarjeta: e.target.value })}
+          />
+        )}
+
+        <textarea
+          name="notas"
+          placeholder="Notas (opcional)"
+          value={pagoActual.notas || ""}
+          onChange={(e) => setPagoActual({ ...pagoActual, notas: e.target.value })}
+        />
+
+        <div className="modal-buttons">
+          <button
+            className="add-button"
+            onClick={() => realizarPago(empleadoEnEdicion?.id, pagoActual)}
+          >
+            Confirmar Pago
+          </button>
+          <button className="cancel-button" onClick={cerrarModalPago}>
+            Cancelar
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }
+
 export default Empleados;

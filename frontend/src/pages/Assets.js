@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../api/supabase"; // Importa el cliente de Supabase
-import Alert from "../components/Alert"; // Componente para mostrar alertas
 import Table from "../components/Table"; // Componente de tabla
 import Modal from "../components/Modal"; // Componente de modal
+import { ToastContainer, toast } from "react-toastify"; // Para notificaciones visuales
 import "../styles/Profile.css"; // Estilos similares a Inventario.js
 
 const Assets = () => {
@@ -22,9 +22,7 @@ const Assets = () => {
   });
   const [showModal, setShowModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false); // Modal para mostrar detalles
-  const [message, setMessage] = useState("");
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false); // Controla el modal de confirmación
-  const [messageType, setMessageType] = useState(""); // Para manejar el tipo de alerta
   const [isEditMode, setIsEditMode] = useState(false); // Determina si estamos en modo edición
   const [selectedAssetId, setSelectedAssetId] = useState(null); // Para manejar el activo seleccionado
   const [selectedAssetDetails, setSelectedAssetDetails] = useState(null); // Datos del activo seleccionado para mostrar en el modal de detalles
@@ -35,19 +33,24 @@ const Assets = () => {
   }, [paginaActual]);
 
   const fetchAssets = async () => {
-    const { data, error, count } = await supabase
-      .from("activos_fijos")
-      .select("*", { count: "exact" })
-      .range((paginaActual - 1) * elementosPorPagina, paginaActual * elementosPorPagina - 1);
+    try {
+      const { data, error, count } = await supabase
+        .from("activos_fijos")
+        .select("*", { count: "exact" })
+        .range((paginaActual - 1) * elementosPorPagina, paginaActual * elementosPorPagina - 1);
 
-    if (error) {
-      setMessage("Error al cargar los activos.");
-      setMessageType("error");
-    } else {
+      if (error) {
+        throw error; // Lanza el error para que sea capturado por el catch
+      }
+
       setAssets(data);
       setTotalPaginas(Math.ceil(count / elementosPorPagina));
+    } catch (error) {
+      console.error("Error al cargar los activos:", error);
+      toast.error("Error al cargar los activos.");
     }
   };
+
   const calcularRangoPaginas = () => {
     const rango = [];
     for (let i = 1; i <= totalPaginas; i++) {
@@ -61,10 +64,10 @@ const Assets = () => {
       setPaginaActual(nuevaPagina);
     }
   };
+
   const openDeleteConfirmModal = () => {
     if (!selectedAssetId) {
-      setMessage("Debe seleccionar un activo para eliminar.");
-      setMessageType("error");
+      toast.error("Debe seleccionar un activo para eliminar.");
     } else {
       setIsConfirmModalOpen(true); // Abre el modal de confirmación
     }
@@ -79,18 +82,15 @@ const Assets = () => {
       const { error } = await supabase.from("activos_fijos").delete().eq("id", selectedAssetId);
 
       if (error) {
-        setMessage("Error al eliminar el activo.");
-        setMessageType("error");
-      } else {
-        setMessage("Activo fijo eliminado exitosamente.");
-        setMessageType("success");
-        fetchAssets(); // Actualiza la lista de activos
-        setSelectedAssetId(null); // Limpia la selección
+        throw error; // Lanza el error para que sea capturado por el catch
       }
+
+      toast.success("Activo fijo eliminado exitosamente.");
+      fetchAssets(); // Actualiza la lista de activos
+      setSelectedAssetId(null); // Limpia la selección
     } catch (err) {
       console.error("Error al eliminar activo:", err.message);
-      setMessage("Ocurrió un error al eliminar el activo.");
-      setMessageType("error");
+      toast.error("Ocurrió un error al eliminar el activo.");
     }
 
     closeDeleteConfirmModal(); // Cierra el modal después de la confirmación
@@ -106,97 +106,75 @@ const Assets = () => {
   };
 
   // Función para registrar un activo
-  // Función para registrar un activo
-const addActivo = async (activo) => {
-  const {
-    nombre,
-    descripcion,
-    categoria,
-    fecha_adquisicion,
-    valor,
-    vida_util,
-    ubicacion,
-    estado,
-  } = activo;
+  const addActivo = async (activo) => {
+    const {
+      nombre,
+      descripcion,
+      categoria,
+      fecha_adquisicion,
+      valor,
+      vida_util,
+      ubicacion,
+      estado,
+    } = activo;
 
-  console.log("addActivo llamado con activo:", activo);
+    // Calcular la depreciación anual
+    const depreciacion_anual = (valor - 0) / vida_util; // Suponiendo valor_residual = 0
 
-  // Calcular la depreciación anual
-  const depreciacion_anual = (valor - 0) / vida_util; // Suponiendo valor_residual = 0
-  console.log("Depreciación anual calculada:", depreciacion_anual);
+    // Calcular la fecha de baja si el activo tiene vida útil
+    const fecha_baja = new Date(fecha_adquisicion);
+    fecha_baja.setFullYear(fecha_baja.getFullYear() + parseInt(vida_util, 10));
 
-  // Calcular la fecha de baja si el activo tiene vida útil
-  const fecha_baja = new Date(fecha_adquisicion);
-  fecha_baja.setFullYear(fecha_baja.getFullYear() + parseInt(vida_util, 10));
-  console.log("Fecha de baja calculada:", fecha_baja);
+    // Calcular la depreciación acumulada basada en la fecha de adquisición y la fecha actual
+    const fecha_registro = new Date(); // Fecha del registro (hoy)
+    const añosTranscurridos = Math.floor((fecha_registro - new Date(fecha_adquisicion)) / (1000 * 60 * 60 * 24 * 365)); // Año transcurrido desde la adquisición
+    const depreciacion_acumulada = Math.min(añosTranscurridos * depreciacion_anual, valor); // No puede superar el valor original
 
-  // Calcular la depreciación acumulada basada en la fecha de adquisición y la fecha actual
-  const fecha_registro = new Date(); // Fecha del registro (hoy)
-  const añosTranscurridos = Math.floor((fecha_registro - new Date(fecha_adquisicion)) / (1000 * 60 * 60 * 24 * 365)); // Año transcurrido desde la adquisición
-  const depreciacion_acumulada = Math.min(añosTranscurridos * depreciacion_anual, valor); // No puede superar el valor original
-  console.log("Depreciación acumulada calculada:", depreciacion_acumulada);
+    // Calcular el valor residual (Valor original - depreciación acumulada)
+    const valor_residual = valor - depreciacion_acumulada;
 
-  // Calcular el valor residual (Valor original - depreciación acumulada)
-  const valor_residual = valor - depreciacion_acumulada;
-  console.log("Valor residual calculado:", valor_residual);
+    const nuevoActivo = {
+      nombre,
+      descripcion,
+      categoria,
+      fecha_adquisicion,
+      valor: parseFloat(valor),
+      valor_residual: valor_residual, // Valor residual calculado
+      vida_util: parseInt(vida_util, 10),
+      depreciacion_anual,
+      depreciacion_acumulada: depreciacion_acumulada, // Depreciación acumulada calculada
+      estado,
+      ubicacion,
+      fecha_baja: vida_util > 0 ? fecha_baja.toISOString().split("T")[0] : null,
+    };
 
-  const nuevoActivo = {
-    nombre,
-    descripcion,
-    categoria,
-    fecha_adquisicion,
-    valor: parseFloat(valor),
-    valor_residual: valor_residual, // Valor residual calculado
-    vida_util: parseInt(vida_util, 10),
-    depreciacion_anual,
-    depreciacion_acumulada: depreciacion_acumulada, // Depreciación acumulada calculada
-    estado,
-    ubicacion,
-    fecha_baja: vida_util > 0 ? fecha_baja.toISOString().split("T")[0] : null,
+    // Inserta el activo y devuelve el resultado
+    const { data, error } = await supabase
+      .from("activos_fijos")
+      .insert([nuevoActivo])
+      .select("*");
+
+    if (error) {
+      throw error; // Lanza el error para que sea capturado por el catch
+    }
+
+    return data;
   };
-
-  console.log("Nuevo activo preparado para insertar:", nuevoActivo);
-
-  // Inserta el activo y devuelve el resultado
-  const { data, error } = await supabase
-    .from("activos_fijos")
-    .insert([nuevoActivo])
-    .select("*");
-
-  if (error) {
-    console.error("Error al agregar activo:", error);
-    setMessage("Error al registrar el activo.");
-    setMessageType("error");
-    return null;
-  }
-
-  console.log("Activo registrado con éxito:", data);
-  return data;
-};
-
 
   // Función para manejar el envío del formulario (Registro/Edición)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("handleSubmit llamado con datos:", formData);
 
     try {
       if (!isEditMode) {
-        console.log("Modo registro activo");
         const result = await addActivo(formData);
-        console.log("Resultado de addActivo:", result);
 
         if (result) {
-          setMessage("Activo fijo registrado exitosamente.");
-          setMessageType("success");
+          toast.success("Activo fijo registrado exitosamente.");
           fetchAssets(); // Actualiza la lista de activos
           cerrarModal(); // Cierra el modal después de registrar
-          console.log("Modal cerrado después de registrar");
-        } else {
-          console.log("No se pudo registrar el activo");
         }
       } else {
-        console.log("Modo edición activo");
         const { error } = await supabase
           .from("activos_fijos")
           .update({
@@ -212,20 +190,16 @@ const addActivo = async (activo) => {
           .eq("id", selectedAssetId);
 
         if (error) {
-          console.error("Error al actualizar:", error);
-          setMessage("Error al actualizar el activo.");
-          setMessageType("error");
-        } else {
-          setMessage("Activo fijo actualizado exitosamente.");
-          setMessageType("success");
-          fetchAssets(); // Actualiza la lista de activos
-          cerrarModal(); // Cierra el modal después de actualizar
+          throw error; // Lanza el error para que sea capturado por el catch
         }
+
+        toast.success("Activo fijo actualizado exitosamente.");
+        fetchAssets(); // Actualiza la lista de activos
+        cerrarModal(); // Cierra el modal después de actualizar
       }
     } catch (error) {
       console.error("Error al procesar la solicitud:", error);
-      setMessage("Ocurrió un error al procesar la solicitud.");
-      setMessageType("error");
+      toast.error("Ocurrió un error al procesar la solicitud.");
     }
   };
 
@@ -248,13 +222,11 @@ const addActivo = async (activo) => {
 
   // Función para abrir el modal en modo de registro
   const openModal = () => {
-    console.log("openModal llamado");
     setShowModal(true);
   };
 
   // Función para cerrar el modal
   const cerrarModal = () => {
-    console.log("cerrarModal llamado");
     setShowModal(false);
     setShowDetailsModal(false); // Cierra el modal de detalles si está abierto
     setFormData({
@@ -269,26 +241,10 @@ const addActivo = async (activo) => {
     });
     setSelectedAssetId(null);
     setIsEditMode(false);
-    setMessage("");
-    setMessageType("");
-  };
-
-  // Función para eliminar un activo
-  const deleteAsset = async (id) => {
-    const { error } = await supabase.from("activos_fijos").delete().eq("id", id);
-    if (error) {
-      setMessage("Error al eliminar el activo.");
-      setMessageType("error");
-    } else {
-      setMessage("Activo fijo eliminado exitosamente.");
-      setMessageType("success");
-      fetchAssets(); // Actualiza la lista de activos
-    }
   };
 
   // Función para manejar la selección de una fila en la tabla
   const handleRowSelect = (assetId) => {
-    console.log("Seleccionado ID:", assetId);
     setSelectedAssetId((prevSelectedAssetId) =>
       prevSelectedAssetId === assetId ? null : assetId
     );
@@ -297,8 +253,7 @@ const addActivo = async (activo) => {
   // Función para mostrar los detalles de un activo
   const showAssetDetails = async () => {
     if (!selectedAssetId) {
-      setMessage("Debe seleccionar un activo.");
-      setMessageType("error");
+      toast.error("Debe seleccionar un activo.");
       return;
     }
 
@@ -309,8 +264,7 @@ const addActivo = async (activo) => {
       .single(); // Obtener un solo activo
 
     if (error) {
-      setMessage("Error al obtener los detalles del activo.");
-      setMessageType("error");
+      toast.error("Error al obtener los detalles del activo.");
     } else {
       setSelectedAssetDetails(data);
       setShowDetailsModal(true); // Muestra el modal de detalles
@@ -321,16 +275,11 @@ const addActivo = async (activo) => {
     <div className="empleados-container">
       <h2>Gestión de Activos Fijos</h2>
 
-      {/* Alerta de mensajes */}
-      {message && <Alert type={messageType} message={message} />}
-
       <div className="tabla-container">
         <Table
           headers={[
             "Nombre",
-            //"Descripción",
             "Categoría",
-            //"Fecha de Adquisición",
             "Valor Adquisitivo",
             "Vida Útil",
             "Ubicación",
@@ -353,6 +302,7 @@ const addActivo = async (activo) => {
           exactKeys={false} // Permitir claves en minúsculas
         />
       </div>
+
       {/* Paginación */}
       <div className="pagination">
         <button
@@ -406,6 +356,7 @@ const addActivo = async (activo) => {
           Detalles
         </button>
       </div>
+
       {/* Modal de confirmación */}
       {isConfirmModalOpen && (
         <Modal abierto={isConfirmModalOpen} cerrarModal={closeDeleteConfirmModal}>
@@ -424,7 +375,6 @@ const addActivo = async (activo) => {
           </div>
         </Modal>
       )}
-      
 
       {/* Modal de registro/edición */}
       {showModal && (
@@ -524,32 +474,30 @@ const addActivo = async (activo) => {
 
       {/* Modal de detalles */}
       {showDetailsModal && selectedAssetDetails && (
-  <Modal abierto={showDetailsModal} cerrarModal={cerrarModal}>
-  <h2>Detalles del Activo</h2>
-  <div className="detalles-container">
-    <div className="columna-detalles">
-      <p><strong>Nombre:</strong> {selectedAssetDetails.nombre}</p>
-      <p><strong>Descripción:</strong> {selectedAssetDetails.descripcion}</p>
-      {/*<p><strong>Id:</strong> {selectedAssetDetails.id}</p>*/}
-      <p><strong>Categoría:</strong> {selectedAssetDetails.categoria}</p>
-      <p><strong>Fecha de Adquisición:</strong> {selectedAssetDetails.fecha_adquisicion}</p>
-      <p><strong>Valor Adquisitivo:</strong> {selectedAssetDetails.valor}</p>
-      <p><strong>Vida Útil:</strong> {selectedAssetDetails.vida_util} años</p>
-    </div>
-    <div className="columna-detalles">
-      <p><strong>Valor Residual:</strong> {selectedAssetDetails.valor_residual}</p>
-      <p><strong>Depreciación Anual:</strong> {selectedAssetDetails.depreciacion_anual}</p>
-      <p><strong>Depreciación Acumulada:</strong> {selectedAssetDetails.depreciacion_acumulada}</p>
-      <p><strong>Ubicación:</strong> {selectedAssetDetails.ubicacion}</p>
-      <p><strong>Estado:</strong> {selectedAssetDetails.estado}</p>
-      <p><strong>Fecha de Baja:</strong> {selectedAssetDetails.fecha_baja}</p>
-    </div>
-  </div>
-</Modal>
-
-)}
-
+        <Modal abierto={showDetailsModal} cerrarModal={cerrarModal}>
+          <h2>Detalles del Activo</h2>
+          <div className="detalles-container">
+            <div className="columna-detalles">
+              <p><strong>Nombre:</strong> {selectedAssetDetails.nombre}</p>
+              <p><strong>Descripción:</strong> {selectedAssetDetails.descripcion}</p>
+              <p><strong>Categoría:</strong> {selectedAssetDetails.categoria}</p>
+              <p><strong>Fecha de Adquisición:</strong> {selectedAssetDetails.fecha_adquisicion}</p>
+              <p><strong>Valor Adquisitivo:</strong> {selectedAssetDetails.valor}</p>
+              <p><strong>Vida Útil:</strong> {selectedAssetDetails.vida_util} años</p>
+            </div>
+            <div className="columna-detalles">
+              <p><strong>Valor Residual:</strong> {selectedAssetDetails.valor_residual}</p>
+              <p><strong>Depreciación Anual:</strong> {selectedAssetDetails.depreciacion_anual}</p>
+              <p><strong>Depreciación Acumulada:</strong> {selectedAssetDetails.depreciacion_acumulada}</p>
+              <p><strong>Ubicación:</strong> {selectedAssetDetails.ubicacion}</p>
+              <p><strong>Estado:</strong> {selectedAssetDetails.estado}</p>
+              <p><strong>Fecha de Baja:</strong> {selectedAssetDetails.fecha_baja}</p>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
+
 export default Assets;

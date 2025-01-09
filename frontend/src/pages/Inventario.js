@@ -10,6 +10,8 @@ import {
 } from "../api/inventario";
 import Table from "../components/Table";
 import Modal from "../components/Modal";
+import { ToastContainer, toast } from "react-toastify"; // Para notificaciones visuales
+import "react-toastify/dist/ReactToastify.css"; // Estilos de las notificaciones
 import "../styles/Inventario.css";
 
 function Inventario() {
@@ -118,46 +120,40 @@ function Inventario() {
     }
   };
   
-  // Importa la librería QRCode si no lo has hecho
-// import QRCode from "qrcode";
-
-const descargarCodigoQR = async () => {
-  if (!productoSeleccionado) {
-    mostrarNotificacion("error", "Seleccione un producto para generar su código QR.");
-    return;
-  }
-
-  try {
-    // Usar el ID como dato para el QR
-    const qrData = productoSeleccionado.id?.toString(); 
-    if (!qrData) {
-      mostrarNotificacion("error", "El producto seleccionado no tiene un ID válido.");
+  const descargarCodigoQR = async () => {
+    if (!productoSeleccionado) {
+      mostrarNotificacion("error", "Seleccione un producto para generar su código QR.");
       return;
     }
 
-    // Generar QR dinámico con el ID
-    const qrUrl = await QRCode.toDataURL(qrData, { 
-      errorCorrectionLevel: "H", // Nivel alto de corrección para mejor calidad
-      type: "image/png", // Asegurar que sea PNG
-    });
+    try {
+      // Usar el ID como dato para el QR
+      const qrData = productoSeleccionado.id?.toString(); 
+      if (!qrData) {
+        mostrarNotificacion("error", "El producto seleccionado no tiene un ID válido.");
+        return;
+      }
 
-    // Crear el enlace de descarga
-    const link = document.createElement("a");
-    link.href = qrUrl;
-    link.download = `QR_${productoSeleccionado.nombre || "producto"}.png`; // Nombre del archivo
-    document.body.appendChild(link); // Agregar al DOM temporalmente
-    link.click();
-    document.body.removeChild(link); // Remover después del clic
+      // Generar QR dinámico con el ID
+      const qrUrl = await QRCode.toDataURL(qrData, { 
+        errorCorrectionLevel: "H", // Nivel alto de corrección para mejor calidad
+        type: "image/png", // Asegurar que sea PNG
+      });
 
-    mostrarNotificacion("success", "Código QR descargado exitosamente.");
-  } catch (err) {
-    console.error("Error al generar el código QR:", err);
-    mostrarNotificacion("error", "Error al generar el código QR. Revise la consola para más detalles.");
-  }
-};
+      // Crear el enlace de descarga
+      const link = document.createElement("a");
+      link.href = qrUrl;
+      link.download = `QR_${productoSeleccionado.nombre || "producto"}.png`; // Nombre del archivo
+      document.body.appendChild(link); // Agregar al DOM temporalmente
+      link.click();
+      document.body.removeChild(link); // Remover después del clic
 
-
-  
+      mostrarNotificacion("success", "Código QR descargado exitosamente.");
+    } catch (err) {
+      console.error("Error al generar el código QR:", err);
+      mostrarNotificacion("error", "Error al generar el código QR. Revise la consola para más detalles.");
+    }
+  };
 
   const guardarProducto = async () => {
     try {
@@ -199,109 +195,96 @@ const descargarCodigoQR = async () => {
   };
 
   const mostrarNotificacion = (tipo, mensaje) => {
-    setNotificacion({ tipo, mensaje });
-    setTimeout(() => setNotificacion(null), 3000);
+    if (tipo === "success") {
+      toast.success(mensaje);
+    } else if (tipo === "error") {
+      toast.error(mensaje);
+    }
   };
 
   return (
     <div className="empleados-container">
       <h2>Gestión de Inventario</h2>
 
-      {notificacion && (
-        <div className={`notificacion ${notificacion.tipo}`}>
-          {notificacion.mensaje}
-        </div>
-      )}
+      <ToastContainer /> {/* Contenedor para las notificaciones */}
 
       <div className="filtro-container">
-  <input
-    type="text"
-    placeholder="Buscar por nombre"
-    value={filtroNombre}
-    onChange={(e) => setFiltroNombre(e.target.value)}
-    className="filtro-input"
-  />
-  <button onClick={() => setPaginaActual(1)} className="buscar-button">
-    Buscar
-  </button>
-</div>
-
+        <input
+          type="text"
+          placeholder="Buscar por nombre"
+          value={filtroNombre}
+          onChange={(e) => setFiltroNombre(e.target.value)}
+          className="filtro-input"
+        />
+        <button onClick={() => setPaginaActual(1)} className="buscar-button">
+          Buscar
+        </button>
+      </div>
 
       <div className="tabla-container">
         <Table
-  headers={[
-    "Nombre",
-    "U/M",
-    "Precio Compra",
-    "Precio Venta",
-    "Stock",
-    "Nivel Mínimo",
-    "Categoría",
-  ]}
-  data={productos.map((producto) => {
-    console.log("Producto procesado para la tabla:", producto); // Log para inspeccionar cada producto
+          headers={[
+            "Nombre",
+            "U/M",
+            "Precio Compra",
+            "Precio Venta",
+            "Stock",
+            "Nivel Mínimo",
+            "Categoría",
+          ]}
+          data={productos.map((producto) => {
+            console.log("Producto procesado para la tabla:", producto); // Log para inspeccionar cada producto
 
-    return {
-      nombre: producto.nombre || "N/A",
-      "u/m": producto.unidad_medida || "N/A",
-      "precio compra": producto.precio_compra != null ? `$${parseFloat(producto.precio_compra).toFixed(2)}` : "N/A",
-      "precio venta": producto.precio_venta != null ? `$${parseFloat(producto.precio_venta).toFixed(2)}` : "N/A",
-      stock: producto.stock === 0 ? 0 : producto.stock || "N/A", // Log detallado para stock
-      "nivel mínimo": producto.nivel_minimo != null ? producto.nivel_minimo : "N/A",
-      categoría: producto.categoria || "N/A",
-      onClick: () => setProductoSeleccionado(producto), // Selección de fila
-      seleccionado: productoSeleccionado?.id === producto.id, // Estilo visual de fila seleccionada
-    };
-  })}
-/>
-
+            return {
+              nombre: producto.nombre || "N/A",
+              "u/m": producto.unidad_medida || "N/A",
+              "precio compra": producto.precio_compra != null ? `$${parseFloat(producto.precio_compra).toFixed(2)}` : "N/A",
+              "precio venta": producto.precio_venta != null ? `$${parseFloat(producto.precio_venta).toFixed(2)}` : "N/A",
+              stock: producto.stock === 0 ? 0 : producto.stock || "N/A", // Log detallado para stock
+              "nivel mínimo": producto.nivel_minimo != null ? producto.nivel_minimo : "N/A",
+              categoría: producto.categoria || "N/A",
+              onClick: () => setProductoSeleccionado(producto), // Selección de fila
+              seleccionado: productoSeleccionado?.id === producto.id, // Estilo visual de fila seleccionada
+            };
+          })}
+        />
       </div>
 
       <div className="pagination">
-  <button
-    disabled={paginaActual === 1}
-    onClick={() => cambiarPagina(paginaActual - 1)}
-  >
-    Anterior
-  </button>
-  {Array.from(
-    { length: Math.min(3, totalPaginas) },
-    (_, i) => {
-      const paginaInicio = Math.max(1, paginaActual - 1);
-      const numeroPagina = paginaInicio + i;
-
-      if (numeroPagina > totalPaginas) return null;
-
-      return (
         <button
-          key={numeroPagina}
-          className={paginaActual === numeroPagina ? "active-page" : ""}
-          onClick={() => cambiarPagina(numeroPagina)}
+          disabled={paginaActual === 1}
+          onClick={() => cambiarPagina(paginaActual - 1)}
         >
-          {numeroPagina}
+          Anterior
         </button>
-      );
-    }
-  )}
-  <button
-    disabled={paginaActual === totalPaginas}
-    onClick={() => cambiarPagina(paginaActual + 1)}
-  >
-    Siguiente
-  </button>
-</div>
-      <div className="botones-acciones">
-        {/*<button className="add-button" onClick={agregarProducto}>
-          //*Agregar Producto*
-        </button>  */}      
-        
-        {/*<button
-          className="delete-button"
-          onClick={eliminarProducto}
-          disabled={!productoSeleccionado}
+        {Array.from(
+          { length: Math.min(3, totalPaginas) },
+          (_, i) => {
+            const paginaInicio = Math.max(1, paginaActual - 1);
+            const numeroPagina = paginaInicio + i;
+
+            if (numeroPagina > totalPaginas) return null;
+
+            return (
+              <button
+                key={numeroPagina}
+                className={paginaActual === numeroPagina ? "active-page" : ""}
+                onClick={() => cambiarPagina(numeroPagina)}
+              >
+                {numeroPagina}
+              </button>
+            );
+          }
+        )}
+        <button
+          disabled={paginaActual === totalPaginas}
+          onClick={() => cambiarPagina(paginaActual + 1)}
         >
-          Eliminar Producto
-        </button>*/}
+          Siguiente
+        </button>
+      </div>
+
+      <div className="botones-acciones">
         <button className="add-button" onClick={exportarExcel}>
           Exportar a Excel
         </button>
