@@ -9,36 +9,80 @@
   display: flex;
   justify-content: center;
   align-items: flex-start; /* Alineación desde la parte superior */
-  padding-top: 20px; /* Espaciado adicional */
-  z-index: 9999;
+  padding-top: 20px; /* Añadimos un padding superior para separar el modal del header */
+  z-index: 1301; /* Aseguramos que el modal esté por encima del header (z-index: 1300) */
   overflow-y: auto; /* Habilita scroll si el contenido es alto */
+  backdrop-filter: blur(5px); /* Efecto de desenfoque en el fondo */
 }
 
 .modal-container {
   background-color: #fff;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px; /* Bordes más redondeados */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
   position: relative;
   width: 90%; /* Permite adaptarse a pantallas más pequeñas */
-  max-width: 400px;
+  max-width: 600px; /* Aumentamos el ancho máximo para pantallas grandes */
   max-height: calc(100% - 40px); /* Máxima altura del modal considerando el espaciado */
   overflow-y: auto; /* Permite desplazamiento interno si el contenido excede */
-  z-index: 10000;
+  z-index: 1302; /* Aseguramos que el contenido del modal esté por encima del overlay */
+  margin-top: 20px; /* Añadimos un margen superior para separar el modal del header */
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Transición suave */
+  transform: translateY(-20px); /* Inicia ligeramente arriba */
+  opacity: 0; /* Inicia invisible */
+}
+
+.modal-overlay .modal-container {
+  transform: translateY(0); /* Posición final */
+  opacity: 1; /* Visible */
 }
 
 /* Botón de cierre */
 .modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 24px;
   cursor: pointer;
   color: #666;
+  transition: color 0.3s ease; /* Transición suave */
 }
 
 .modal-close:hover {
   color: #000;
+}
+
+/* Contenido del modal */
+.modal-content {
+  color: #333; /* Color de texto más oscuro */
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .modal-container {
+    width: 95%; /* Aumentamos el ancho en pantallas pequeñas */
+    max-width: 95%; /* Ajustamos el ancho máximo */
+    padding: 15px; /* Reducimos el padding */
+  }
+
+  .modal-overlay {
+    padding-top: 15px; /* Reducimos el padding superior en pantallas pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-container {
+    width: 100%; /* Ocupa todo el ancho en pantallas muy pequeñas */
+    max-width: 100%;
+    border-radius: 0; /* Eliminamos el borde redondeado */
+    padding: 10px; /* Reducimos aún más el padding */
+  }
+
+  .modal-overlay {
+    padding-top: 10px; /* Reducimos aún más el padding superior en pantallas muy pequeñas */
+  }
 }

@@ -7,7 +7,7 @@ function Footer() {
     <Box id="footer" sx={{ backgroundColor: "#1a1a1a", color: "white", py: 2 }}>
       <Box sx={{ maxWidth: "1200px", margin: "0 auto", px: 4, textAlign: "center" }}>
         {/* Enlaces con íconos */}
-        <Box sx={{ display: "flex", justifyContent: "center", gap: 4, mb: 2 }}>
+        <Box sx={{ display: "flex", justifyContent: "center", gap: 4, mb: 2, flexWrap: 'wrap' }}>
           {/* Enlace a Documentación */}
           <Link
             href="https://emprex.vercel.app/documentacion.html"
