@@ -1,8 +1,9 @@
 import { supabase } from "./supabase";
 
-// Obtener el Balance General
+
 export const getBalanceGeneral = async (fechaInicio, fechaFin) => {
   try {
+	  
     const response = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/api/reportes/balance-general?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`
     );
@@ -16,7 +17,7 @@ export const getBalanceGeneral = async (fechaInicio, fechaFin) => {
   }
 };
 
-// Exportar el Balance General a Excel
+
 export const exportarBalanceGeneral = async (fechaInicio, fechaFin) => {
   try {
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/reportes/exportar-balance-general?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
@@ -35,17 +36,21 @@ export const exportarBalanceGeneral = async (fechaInicio, fechaFin) => {
     document.body.removeChild(link);
   } catch (error) {
     console.error("Error al exportar Balance General:", error.message);
-    throw error; // Asegúrate de lanzar el error para que sea capturado en el bloque try-catch
+    throw error;
   }
 };
 
-// Obtener Pagos de Empleados
+
+
+
+// Obtener PagosEmpleados
 export const getPagosEmpleados = async (fechaInicio, fechaFin) => {
   try {
+    // Asegurar que fechaInicio incluye la hora inicial del día y fechaFin la hora final
     const inicioISO = new Date(`${fechaInicio}T00:00:00Z`).toISOString();
     const finISO = new Date(`${fechaFin}T23:59:59Z`).toISOString();
 
-    console.log("Fechas para consulta:", { inicioISO, finISO });
+    console.log("Fechas para consulta:", { inicioISO, finISO }); // Log para depuración
 
     const { data, error } = await supabase
       .from("pagos_empleados")
@@ -66,7 +71,7 @@ export const getPagosEmpleados = async (fechaInicio, fechaFin) => {
   }
 };
 
-// Obtener Productos Más Vendidos
+// Obtener productos más vendidos
 export const getReportesVentas = async (fechaInicio, fechaFin) => {
   try {
     const { data, error } = await supabase.rpc("productos_mas_vendidos", {
@@ -89,7 +94,7 @@ export const getReportesVentas = async (fechaInicio, fechaFin) => {
   }
 };
 
-// Obtener Alertas de Stock Bajo
+// Obtener alertas de stock bajo
 export const getAlertasStockBajo = async () => {
   try {
     const { data, error } = await supabase.rpc("obtener_alertas_bajo_stock");
@@ -110,7 +115,7 @@ export const getAlertasStockBajo = async () => {
   }
 };
 
-// Obtener Resumen de Ventas
+// Obtener resumen de ventas
 export const getResumenVentas = async (fechaInicio, fechaFin) => {
   try {
     const { data, error } = await supabase.rpc("resumen_ventas_por_intervalo", {
@@ -126,6 +131,7 @@ export const getResumenVentas = async (fechaInicio, fechaFin) => {
       return { productos: [], totales: {} };
     }
 
+    // Obtener totales generales del primer registro
     const totales = {
       total_efectivo: `$${parseFloat(data[0]?.total_efectivo_general || 0).toFixed(2)}`,
       total_transferencia: `$${parseFloat(data[0]?.total_transferencia_general || 0).toFixed(2)}`,
@@ -133,6 +139,7 @@ export const getResumenVentas = async (fechaInicio, fechaFin) => {
       productos_totales: data[0]?.productos_totales || 0,
     };
 
+    // Filtrar y mapear los productos vendidos
     const productos = data
       .filter((item) => item.nombre_producto)
       .map((item) => ({
@@ -149,7 +156,10 @@ export const getResumenVentas = async (fechaInicio, fechaFin) => {
   }
 };
 
-// Exportar Productos Más Vendidos a Excel
+
+
+
+// Exportar productos más vendidos a Excel
 export const exportarProductosMasVendidos = async (fechaInicio, fechaFin) => {
   const url = `${process.env.REACT_APP_BACKEND_URL}/api/reportes/exportar-productos-mas-vendidos?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
   const response = await fetch(url);
@@ -167,7 +177,7 @@ export const exportarProductosMasVendidos = async (fechaInicio, fechaFin) => {
   document.body.removeChild(link);
 };
 
-// Exportar Alertas de Stock Bajo a Excel
+// Exportar alertas de stock bajo a Excel
 export const exportarAlertasStockBajo = async () => {
   const url = `${process.env.REACT_APP_BACKEND_URL}/api/reportes/exportar-alertas-stock-bajo`;
   const response = await fetch(url);
@@ -183,7 +193,7 @@ export const exportarAlertasStockBajo = async () => {
   document.body.removeChild(link);
 };
 
-// Exportar Resumen de Ventas a Excel
+// Exportar resumen de ventas a Excel
 export const exportarResumenVentas = async (fechaInicio, fechaFin) => {
   const url = `${process.env.REACT_APP_BACKEND_URL}/api/reportes/exportar-resumen-ventas?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
   const response = await fetch(url);
@@ -201,7 +211,8 @@ export const exportarResumenVentas = async (fechaInicio, fechaFin) => {
   document.body.removeChild(link);
 };
 
-// Obtener Resumen de Compras
+// Obtener resumen de compras
+// api/reportes.js
 export const getResumenCompras = async (fechaInicio, fechaFin) => {
   try {
     console.log("[Frontend] Llamando al endpoint de compras con fechas:", { fechaInicio, fechaFin });
@@ -220,6 +231,7 @@ export const getResumenCompras = async (fechaInicio, fechaFin) => {
       return { productos: [], totales: {} };
     }
 
+    // Productos procesados con claves exactas
     const productos = data.productos.map((item) => ({
       Producto: item.nombre_producto || "N/A",
       "Cantidad Comprada": item.cantidad_total || 0,
@@ -229,6 +241,7 @@ export const getResumenCompras = async (fechaInicio, fechaFin) => {
 
     console.log("[Frontend] Productos procesados:", productos);
 
+    // Totales procesados con claves exactas
     const totales = {
       "Total de Unidades Compradas": data.totales.productos_totales || 0,
       "Gastos Totales": `$${parseFloat(data.totales.gastos_totales || 0).toFixed(2)}`,
@@ -245,7 +258,9 @@ export const getResumenCompras = async (fechaInicio, fechaFin) => {
   }
 };
 
-// Exportar Resumen de Compras a Excel
+
+
+// Exportar resumen de compras a Excel
 export const exportarResumenCompras = async (fechaInicio, fechaFin) => {
   const url = `${process.env.REACT_APP_BACKEND_URL}/api/reportes/exportar-resumen-compras?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
   const response = await fetch(url);
@@ -263,12 +278,15 @@ export const exportarResumenCompras = async (fechaInicio, fechaFin) => {
   document.body.removeChild(link);
 };
 
-// Exportar Pagos de Empleados a Excel
+
+
+
 export const exportarPagosEmpleados = async (fechaInicio, fechaFin) => {
   try {
     const url = `${process.env.REACT_APP_BACKEND_URL}/api/reportes/exportar-pagos-empleados?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
     const response = await fetch(url);
 
+    // Validar si la respuesta es exitosa
     if (!response.ok) {
       throw new Error(`Error al descargar el archivo Excel: ${response.statusText}`);
     }
@@ -282,6 +300,10 @@ export const exportarPagosEmpleados = async (fechaInicio, fechaFin) => {
     document.body.removeChild(link);
   } catch (error) {
     console.error("Error al exportar pagos de empleados:", error.message);
-    throw error; // Asegúrate de lanzar el error para que sea capturado en el bloque try-catch
+    throw error;
   }
 };
+
+
+
+
