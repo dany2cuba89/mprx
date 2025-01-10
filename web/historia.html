@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EmpreX - Historia de nuestra solución empresarial.">
+  <meta name="keywords" content="EmpreX, historia, gestión, inventario, facturación, reportes">
+  <meta name="author" content="EmpreX">
+  <link rel="icon" type="image/png" href="favicon.png"> <!-- Cambia la ruta y el tipo de archivo según tu caso -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <title>Historia - EmpreX</title>
+  <style>
+    /* Asegurar que no haya márgenes ni padding en el body y html */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden; /* Evita el desbordamiento horizontal */
+    }
+    /* Estilos personalizados para el carrusel */
+    .swiper {
+      width: 100%;
+      height: 100%;
+      overflow: hidden; /* Evita desbordamientos */
+    }
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: auto; /* Asegura que la imagen no exceda el ancho */
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    /* Asegurar que los contenedores no excedan el ancho */
+    .container {
+      max-width: 100%;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      margin: 0 auto; /* Centra el contenedor */
+    }
+    /* Asegurar que las imágenes no excedan el ancho */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    /* Animación del botón */
+    .btn-explosive {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease-in-out, box-shadow 0.3s;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    .btn-explosive:active {
+      transform: scale(0.95);
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+    }
+    .particle-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 8px;
+      height: 8px;
+      opacity: 0;
+      animation: particle-move 0.6s ease-out forwards;
+    }
+    @keyframes particle-move {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--move-x), var(--move-y)) scale(0.5);
+        opacity: 0;
+      }
+    }
+    /* Estilos para el botón "Ir arriba" */
+    #scroll-to-top {
+      z-index: 1000; /* Asegura que esté por encima de otros elementos */
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    #scroll-to-top.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #scroll-to-top:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    /* Estilos para el texto de la historia */
+    .history-content {
+      width: 100%; /* Ocupa todo el ancho disponible */
+      text-align: justify;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      color: #4a5568;
+    }
+    .history-content h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #2d3748;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .history-content p {
+      margin-bottom: 1.5rem;
+    }
+    /* Estilos para el banner */
+    .banner-container {
+      width: 100%;
+      margin-bottom: 2rem; /* Espacio entre la imagen y el título */
+    }
+    .banner-image {
+      width: 100%;
+      height: auto;
+      border-radius: 12px; /* Bordes redondeados */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    }
+    /* Estilos para el main */
+    .main-content {
+      width: 100%;
+      padding: 2rem 1rem; /* Padding para el contenido principal */
+    }
+    /* Estilos para el menú hamburguesa en móviles */
+    @media (max-width: 767px) {
+      #menu {
+        position: absolute;
+        top: 100%; /* Posiciona el menú debajo del navbar */
+        right: 0;
+        background-color: #065F46;
+        width: 100%;
+        z-index: 1000;
+        display: none; /* Ocultar por defecto */
+        flex-direction: column;
+        align-items: center; /* Centra los elementos horizontalmente */
+        padding: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      #menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra los elementos horizontalmente */
+      }
+      #menu ul li {
+        width: auto; /* Ajusta el ancho al contenido */
+        padding: 1rem 0; /* Espaciado vertical */
+        text-align: center; /* Centra el texto dentro del li */
+      }
+      #menu ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        display: inline-block; /* Permite que el texto se centre correctamente */
+      }
+      #menu ul li a:hover {
+        color: #6EE7B7;
+      }
+      #menu.active {
+        display: flex;
+      }
+    }
+    /* Ajustes para pantallas grandes */
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 1200px; /* Limita el ancho máximo en desktop */
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-900 bg-white">
+  <!-- Navbar -->
+  <nav class="bg-[#065F46] py-4 px-6 flex justify-between items-center relative">
+    <div class="flex items-center">
+      <a href="index.html">
+        <img src="logoblanco.png" alt="Logo de EmpreX" class="h-8 mr-4">
+      </a>
+      <a href="index.html" class="text-white font-bold text-xl">EmpreX</a>
+    </div>
+    <!-- Menú hamburguesa para móviles -->
+    <button id="menu-toggle" class="text-white focus:outline-none md:hidden">
+      <i class="fas fa-bars text-2xl"></i>
+    </button>
+    <!-- Menú de navegación -->
+    <ul id="menu" class="hidden md:flex space-x-6 text-white">
+      <li><a href="index.html" class="hover:text-[#6EE7B7]">Inicio</a></li>
+      <li><a href="caracteristicas.html" class="hover:text-[#6EE7B7]">Características</a></li>
+      <li><a href="historia.html" class="hover:text-[#6EE7B7]">Historia</a></li>
+      <li><a href="#footer" class="hover:text-[#6EE7B7]">Contacto</a></li>
+    </ul>
+  </nav>
+  <!-- Hero Section -->
+  <section class="bg-cover bg-center bg-no-repeat" style="background-image: url('historia.jpg');">
+    <div class="bg-black bg-opacity-50 py-16 md:py-24 px-4 md:px-16">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-3xl md:text-6xl font-bold text-white mb-4">Historia de EmpreX</h1>
+        <p class="text-base md:text-xl text-gray-300 mb-8">Descubre cómo EmpreX se convirtió en la solución líder para la gestión de MYPYMES en Cuba.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenido principal de la página de historia -->
+  <main class="main-content">
+    <div class="container mx-auto px-4">
+      <div class="history-content">
+        <p>
+          En los últimos años, Cuba ha experimentado un cambio significativo en su panorama económico. Con la apertura a nuevas formas de gestión privada y el surgimiento de las MYPYMES (Micro, Pequeñas y Medianas Empresas), el país ha comenzado a transitar hacia un modelo más diversificado y dinámico. Sin embargo, este crecimiento ha venido acompañado de desafíos importantes, especialmente en el ámbito de la informatización y la gestión eficiente de recursos.
+        </p>
+        <p>
+          Uno de los mayores obstáculos para las MYPYMES en Cuba ha sido la falta de herramientas tecnológicas que permitan una gestión ágil y colaborativa. Antes de EmpreX, no existía una aplicación que funcionara en tiempo real y a través de Internet, capaz de facilitar la gestión de negocios a múltiples usuarios de manera simultánea. Esta carencia obligaba a los emprendedores a depender de métodos manuales y desconectados, lo que generaba ineficiencias, errores y limitaba su capacidad para crecer.
+        </p>
+        <p>
+          Fue en este contexto que nació <strong>EmpreX</strong>, una solución tecnológica diseñada para empoderar a las MYPYMES cubanas y ayudarlas a superar las barreras que limitan su desarrollo.
+        </p>
+
+        <h2>El Origen de EmpreX</h2>
+        <p>
+          La idea de EmpreX surgió de la observación directa de las dificultades que enfrentan los emprendedores y pequeños empresarios en Cuba. Muchas MYPYMES operaban con métodos tradicionales: inventarios en libretas, facturas escritas a mano, y procesos de compra y venta poco sistematizados. Además, la falta de una plataforma que permitiera la colaboración en tiempo real entre múltiples usuarios hacía que la gestión fuera aún más complicada.
+        </p>
+        <p>
+          Ante esta realidad, un equipo de desarrolladores y especialistas en gestión empresarial se unió con un objetivo claro: crear una herramienta integral que no solo simplificara los procesos administrativos, sino que también permitiera a las MYPYMES trabajar de manera colaborativa y en tiempo real, sin importar la ubicación de sus miembros.
+        </p>
+
+        <h2>Desafíos en el Camino</h2>
+        <p>
+          El desarrollo de EmpreX no estuvo exento de desafíos. En un país donde el acceso a Internet y a tecnologías avanzadas es limitado, crear una solución accesible y funcional requirió innovación y adaptabilidad. El equipo trabajó incansablemente para diseñar una plataforma que funcionara incluso en condiciones de conectividad limitada, asegurando que cualquier negocio, sin importar su ubicación o tamaño, pudiera beneficiarse de sus funcionalidades.
+        </p>
+        <p>
+          Uno de los mayores logros fue desarrollar una aplicación que permitiera a múltiples usuarios trabajar simultáneamente en la misma plataforma, actualizando datos en tiempo real. Esto fue un avance revolucionario en un contexto donde la mayoría de las soluciones disponibles eran estáticas o requerían de instalaciones locales, lo que limitaba su utilidad para equipos distribuidos.
+        </p>
+
+        <h2>La Solución Integral</h2>
+        <p>
+          EmpreX se convirtió en una plataforma todo en uno, capaz de gestionar inventarios, facturación, compras, seguimiento de activos y generación de informes. Pero lo que realmente distingue a EmpreX es su capacidad para funcionar en tiempo real y a través de Internet, permitiendo que múltiples usuarios colaboren de manera eficiente.
+        </p>
+        <p>
+          Con funciones como la Automatización de Procesos de Venta (APV) y la capacidad de generar reportes detallados, EmpreX no solo simplifica las operaciones diarias, sino que también proporciona insights valiosos para la toma de decisiones estratégicas. Además, su diseño intuitivo y accesible asegura que incluso aquellos con poca experiencia en tecnología puedan utilizarlo sin dificultades.
+        </p>
+
+        <h2>El Impacto de EmpreX</h2>
+        <p>
+          Hoy, EmpreX es más que una aplicación: es un aliado para cientos de emprendedores y pequeños empresarios en Cuba. Desde tiendas locales hasta servicios profesionales, las MYPYMES que utilizan EmpreX han experimentado una transformación en la forma en que gestionan sus negocios. Han reducido costos, optimizado tiempos y mejorado su capacidad para competir en el mercado.
+        </p>
+        <p>
+          En un contexto donde la informatización es aún un reto, EmpreX se ha convertido en un faro de innovación y progreso. Es la primera solución en Cuba que permite a las MYPYMES gestionar sus operaciones en tiempo real y de manera colaborativa, rompiendo con las limitaciones de las herramientas tradicionales.
+        </p>
+
+        <h2>Mirando hacia el Futuro</h2>
+        <p>
+          El equipo detrás de EmpreX continúa trabajando para mejorar y expandir la plataforma, siempre con el objetivo de servir mejor a las MYPYMES cubanas. Con cada actualización, se busca incorporar nuevas funcionalidades, mejorar la experiencia del usuario y seguir apoyando el crecimiento de los negocios en Cuba.
+        </p>
+        <p>
+          EmpreX no es solo una herramienta; es una apuesta por el futuro de las MYPYMES en Cuba. Es la prueba de que, incluso en un contexto desafiante, la innovación y el empeño pueden abrir caminos hacia el éxito.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer" class="bg-gray-900 py-8 md:py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+        <!-- About EmpreX -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">EmpreX</h4>
+          <p class="text-sm md:text-base text-gray-400">Optimiza tu negocio con nuestra aplicación integral de gestión.</p>
+          <div class="mt-4">
+          <!-- Íconos de redes sociales comentados -->
+          <!--
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-instagram"></i>
+          </a>
+          -->
+          <!-- Nuevo ícono de WhatsApp -->
+          <a href="https://wa.me/5354588422" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+            <a href="mailto:emprex.dev@gmail.com" class="text-gray-400 hover:text-white">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">Enlaces Rápidos</h4>
+          <ul class="text-gray-400">
+            <li class="mb-2"><a href="index.html" class="hover:text-white">Inicio</a></li>
+            <li class="mb-2"><a href="caracteristicas.html" class="hover:text-white">Características</a></li>
+            <li class="mb-2"><a href="historia.html" class="hover:text-white">Historia</a></li>
+          </ul>
+        </div>
+        <!-- Resources -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">Recursos</h4>
+          <ul class="text-gray-400">
+            <li class="mb-2"><a href="documentacion.html" class="hover:text-white">Documentación</a></li>
+            <li class="mb-2"><a href="preguntasfrecuentes.html" class="hover:text-white">Preguntas Frecuentes</a></li>
+            <li class="mb-2"><a href="soporte.html" class="hover:text-white">Soporte</a></li>
+          </ul>
+        </div>
+        <!-- Newsletter -->
+      <!--
+      <div>
+        <h4 class="text-white font-bold mb-2 md:mb-4">Suscríbete</h4>
+        <p class="text-sm md:text-base text-gray-400 mb-4">Mantente al día con nuestras últimas novedades y actualizaciones.</p>
+        <form>
+          <input type="email" placeholder="Ingresa tu correo" class="bg-gray-800 text-gray-400 py-2 px-4 rounded-l-lg focus:outline-none">
+          <button class="bg-green-500 text-white py-2 px-4 rounded-r-lg hover:bg-green-600">Suscribirse</button>
+        </form>
+      </div>
+      -->
+      </div>
+      <div class="mt-8 border-t border-gray-700 pt-8">
+        <p class="text-sm md:text-base text-gray-400 text-center">© 2024 EmpreX. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botón "Ir arriba" -->
+  <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 opacity-0 hidden transform hover:scale-110">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script>
+    // Menú hamburguesa
+    document.getElementById('menu-toggle')?.addEventListener('click', function () {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('active');
+    });
+
+    // Funcionalidad del botón "Ir arriba"
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollToTopButton.classList.remove('hidden');
+        scrollToTopButton.classList.remove('opacity-0');
+      } else {
+        scrollToTopButton.classList.add('opacity-0');
+        setTimeout(() => {
+          scrollToTopButton.classList.add('hidden');
+        }, 300);
+      }
+    });
+
+    scrollToTopButton?.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+</body>
+</html>

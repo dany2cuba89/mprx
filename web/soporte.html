@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EmpreX - Soporte de nuestra solución empresarial. Brindamos soporte 24/7 para garantizar el éxito de tu negocio.">
+  <meta name="keywords" content="EmpreX, soporte, gestión, inventario, facturación, reportes, soporte 24/7">
+  <meta name="author" content="EmpreX">
+  <link rel="icon" type="image/png" href="favicon.png"> <!-- Cambia la ruta y el tipo de archivo según tu caso -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <title>Soporte - EmpreX</title>
+  <style>
+    /* Asegurar que no haya márgenes ni padding en el body y html */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden; /* Evita el desbordamiento horizontal */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* Asegura que el body ocupe al menos el 100% de la altura de la ventana */
+    }
+    /* Estilos personalizados para el contenido de soporte */
+    .support-content {
+      width: 100%;
+      text-align: justify;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      color: #4a5568;
+    }
+    .support-content h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #2d3748;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .support-content p {
+      margin-bottom: 1.5rem;
+    }
+    .support-content ul {
+      list-style-type: disc;
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .support-content ul li {
+      margin-bottom: 0.5rem;
+    }
+    .support-content a {
+      color: #065F46;
+      text-decoration: underline;
+    }
+    .support-content a:hover {
+      color: #6EE7B7;
+    }
+    /* Estilos para el banner */
+    .banner-container {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    .banner-image {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    /* Estilos para el main */
+    .main-content {
+      width: 100%;
+      padding: 2rem 1rem;
+      flex: 1; /* Hace que el contenido principal ocupe el espacio restante */
+    }
+    /* Estilos para el menú hamburguesa en móviles */
+    @media (max-width: 767px) {
+      #menu {
+        position: absolute;
+        top: 100%; /* Posiciona el menú debajo del navbar */
+        right: 0;
+        background-color: #065F46;
+        width: 100%;
+        z-index: 1000;
+        display: none; /* Ocultar por defecto */
+        flex-direction: column;
+        align-items: center; /* Centra los elementos horizontalmente */
+        padding: 1rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      #menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra los elementos horizontalmente */
+      }
+      #menu ul li {
+        width: auto; /* Ajusta el ancho al contenido */
+        padding: 1rem 0; /* Espaciado vertical */
+        text-align: center; /* Centra el texto dentro del li */
+      }
+      #menu ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        display: inline-block; /* Permite que el texto se centre correctamente */
+      }
+      #menu ul li a:hover {
+        color: #6EE7B7;
+      }
+      #menu.active {
+        display: flex;
+      }
+    }
+    /* Ajustes para pantallas grandes */
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 1200px;
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-900 bg-white">
+  <!-- Navbar -->
+  <nav class="bg-[#065F46] py-4 px-6 flex justify-between items-center relative">
+    <div class="flex items-center">
+      <a href="index.html">
+        <img src="logoblanco.png" alt="Logo de EmpreX" class="h-8 mr-4">
+      </a>
+      <a href="index.html" class="text-white font-bold text-xl">EmpreX</a>
+    </div>
+    <!-- Menú hamburguesa para móviles -->
+    <button id="menu-toggle" class="text-white focus:outline-none md:hidden">
+      <i class="fas fa-bars text-2xl"></i>
+    </button>
+    <!-- Menú de navegación -->
+    <ul id="menu" class="hidden md:flex space-x-6 text-white">
+      <li><a href="index.html" class="hover:text-[#6EE7B7]">Inicio</a></li>
+      <li><a href="caracteristicas.html" class="hover:text-[#6EE7B7]">Características</a></li>
+      <li><a href="historia.html" class="hover:text-[#6EE7B7]">Historia</a></li>
+      <li><a href="#footer" class="hover:text-[#6EE7B7]">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-cover bg-center bg-no-repeat" style="background-image: url('soporte.jpg');">
+    <div class="bg-black bg-opacity-50 py-16 md:py-24 px-4 md:px-16">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-3xl md:text-6xl font-bold text-white mb-4">Soporte de EmpreX</h1>
+        <p class="text-base md:text-xl text-gray-300 mb-8">Estamos aquí para ayudarte. Brindamos soporte técnico 24/7 para garantizar el éxito de tu negocio.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contenido principal de la página de soporte -->
+  <main class="main-content">
+    <div class="container mx-auto px-4">
+      <div class="support-content">
+        <h2>Soporte Técnico 24/7</h2>
+        <p>
+          En EmpreX, entendemos que el éxito de tu negocio depende de la disponibilidad y el rendimiento de nuestras herramientas. Por eso, ofrecemos <strong>soporte técnico 24 horas al día, 7 días a la semana</strong>. Nuestro equipo de expertos está siempre disponible para resolver cualquier problema o duda que puedas tener.
+        </p>
+        <p>
+          Ya sea que necesites ayuda con la configuración inicial, tengas preguntas sobre funcionalidades específicas o enfrentes algún problema técnico, estamos aquí para ayudarte en cualquier momento.
+        </p>
+
+        <h2>¿Cómo Contactarnos?</h2>
+        <p>
+          Puedes contactarnos a través de los siguientes medios:
+        </p>
+        <ul>
+          <li><strong>Correo electrónico:</strong> <a href="mailto:emprex.dev@gmail.com">emprex.dev@gmail.com</a></li>
+          <li><strong>Teléfono:</strong> +53 54588422</li>  
+        </ul>
+        
+        <h2>Documentación y Guías</h2>
+        <p>
+          Para ayudarte a sacar el máximo provecho de EmpreX, hemos preparado una serie de guías y documentación detallada. Aquí encontrarás manuales y consejos útiles.
+        </p>
+        <ul>
+          <li><a href="documentacion.html">Manual de usuario</a></li>          
+        </ul>
+
+        <h2>Reportar un Problema</h2>
+        <p>
+          Si encuentras algún problema o bug en la aplicación, por favor repórtalo de inmediato a través de nuestro <a href="mailto:emprex.dev@gmail.com">correo electrónico</a>. Nuestro equipo trabajará para resolverlo lo antes posible.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer" class="bg-gray-900 py-8 md:py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+        <!-- About EmpreX -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">EmpreX</h4>
+          <p class="text-sm md:text-base text-gray-400">Optimiza tu negocio con nuestra aplicación integral de gestión.</p>
+          <div class="mt-4">
+          <!-- Íconos de redes sociales comentados -->
+          <!--
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-instagram"></i>
+          </a>
+          -->
+          <!-- Nuevo ícono de WhatsApp -->
+          <a href="https://wa.me/5354588422" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+            <a href="mailto:emprex.dev@gmail.com" class="text-gray-400 hover:text-white">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">Enlaces Rápidos</h4>
+          <ul class="text-gray-400">
+            <li class="mb-2"><a href="index.html" class="hover:text-white">Inicio</a></li>
+            <li class="mb-2"><a href="caracteristicas.html" class="hover:text-white">Características</a></li>
+            <li class="mb-2"><a href="historia.html" class="hover:text-white">Historia</a></li>
+          </ul>
+        </div>
+        <!-- Resources -->
+        <div>
+          <h4 class="text-white font-bold mb-2 md:mb-4">Recursos</h4>
+          <ul class="text-gray-400">
+            <li class="mb-2"><a href="documentacion.html" class="hover:text-white">Documentación</a></li>
+            <li class="mb-2"><a href="preguntasfrecuentes.html" class="hover:text-white">Preguntas Frecuentes</a></li>
+            <li class="mb-2"><a href="soporte.html" class="hover:text-white">Soporte</a></li>
+          </ul>
+        </div>
+        <!-- Newsletter -->
+      <!--
+      <div>
+        <h4 class="text-white font-bold mb-2 md:mb-4">Suscríbete</h4>
+        <p class="text-sm md:text-base text-gray-400 mb-4">Mantente al día con nuestras últimas novedades y actualizaciones.</p>
+        <form>
+          <input type="email" placeholder="Ingresa tu correo" class="bg-gray-800 text-gray-400 py-2 px-4 rounded-l-lg focus:outline-none">
+          <button class="bg-green-500 text-white py-2 px-4 rounded-r-lg hover:bg-green-600">Suscribirse</button>
+        </form>
+      </div>
+      -->
+      </div>
+      <div class="mt-8 border-t border-gray-700 pt-8">
+        <p class="text-sm md:text-base text-gray-400 text-center">© 2024 EmpreX. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Botón "Ir arriba" -->
+  <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 opacity-0 hidden transform hover:scale-110">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script>
+    // Menú hamburguesa
+    document.getElementById('menu-toggle')?.addEventListener('click', function () {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('active');
+    });
+
+    // Funcionalidad del botón "Ir arriba"
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollToTopButton.classList.remove('hidden');
+        scrollToTopButton.classList.remove('opacity-0');
+      } else {
+        scrollToTopButton.classList.add('opacity-0');
+        setTimeout(() => {
+          scrollToTopButton.classList.add('hidden');
+        }, 300);
+      }
+    });
+
+    scrollToTopButton?.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+</body>
+</html>

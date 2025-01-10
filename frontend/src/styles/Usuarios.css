@@ -1,0 +1,119 @@
+/* Contenedor principal */
+.usuarios-container {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+input,
+select {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Botón de agregar usuario */
+.add-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.add-button:hover {
+  background-color: #45a049;
+}
+
+/* Paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 5px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.pagination button.active-page {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+
+/* Notificaciones */
+.notificacion {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  z-index: 9999;
+  opacity: 1;
+  animation: fadeOut 3s forwards;
+}
+
+.notificacion.success {
+  background-color: #4caf50;
+}
+
+.notificacion.error {
+  background-color: #f44336;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Botón de cierre del modal */
+.modal-close {
+  background-color: transparent;
+  color: #333;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.modal-close:hover {
+  color: #000;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  margin: 0 5px;
+}
+

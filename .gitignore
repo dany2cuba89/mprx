@@ -1,0 +1,19 @@
+# Ignorar node_modules en todas las carpetas
+**/node_modules/
+
+# Ignorar archivos de entorno
+**/.env
+**/.env.local
+**/.env.development
+**/.env.production
+
+# Ignorar archivos generados por el sistema
+.DS_Store
+
+# Ignorar carpetas de construcción (build)
+**/build/
+**/dist/
+
+# Ignorar logs y archivos temporales
+**/*.log
+**/.tmp/

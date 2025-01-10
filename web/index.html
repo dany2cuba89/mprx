@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EmpreX - La solución integral para la gestión de MYPYMES en Cuba. Optimiza tu negocio con nuestra aplicación todo en uno.">
+  <meta name="keywords" content="EmpreX, gestión, MYPYMES, Cuba, inventario, facturación, compras, informes">
+  <meta name="author" content="EmpreX">
+  <link rel="icon" type="image/png" href="favicon.png"> <!-- Cambia la ruta y el tipo de archivo según tu caso -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <title>EmpreX</title>
+  <style>
+    /* Asegurar que no haya márgenes ni padding en el body y html */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden; /* Evita el desbordamiento horizontal */
+    }
+    /* Estilos personalizados para el carrusel */
+    .swiper {
+      width: 100%;
+      height: 100%;
+      overflow: hidden; /* Evita desbordamientos */
+    }
+    .swiper-slide {
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: auto; /* Asegura que la imagen no exceda el ancho */
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+    .swiper-slide:hover img {
+      transform: scale(1.05);
+    }
+    .swiper-pagination-bullet {
+      width: 12px;
+      height: 12px;
+      background-color: #fff;
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+    }
+    .swiper-pagination-bullet-active {
+      opacity: 1;
+      background-color: #065F46;
+    }
+    /* Estilos personalizados para las flechas de navegación */
+    .swiper-button-next,
+    .swiper-button-prev {
+      background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+      width: 40px;
+      height: 40px;
+      border-radius: 50%; /* Forma circular */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      background-color: rgba(255, 255, 255, 1); /* Fondo más sólido al hacer hover */
+      transform: scale(1.1); /* Efecto de escala al hacer hover */
+    }
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+      font-size: 20px; /* Tamaño del ícono */
+      color: #065F46; /* Color del ícono */
+      font-weight: bold; /* Grosor del ícono */
+    }
+    .swiper-button-next {
+      right: 10px; /* Posición desde la derecha */
+    }
+    .swiper-button-prev {
+      left: 10px; /* Posición desde la izquierda */
+    }
+    /* Asegurar que los contenedores no excedan el ancho */
+    .container {
+      max-width: 100%;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      margin: 0 auto; /* Centra el contenedor */
+    }
+    /* Asegurar que las imágenes no excedan el ancho */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    /* Animación del botón */
+    .btn-explosive {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease-in-out, box-shadow 0.3s;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    .btn-explosive:active {
+      transform: scale(0.95);
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+    }
+    .particle-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 8px;
+      height: 8px;
+      opacity: 0;
+      animation: particle-move 0.6s ease-out forwards;
+    }
+    @keyframes particle-move {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--move-x), var(--move-y)) scale(0.5);
+        opacity: 0;
+      }
+    }
+    /* Estilos para el botón "Ir arriba" */
+    #scroll-to-top {
+      z-index: 1000; /* Asegura que esté por encima de otros elementos */
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    #scroll-to-top.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #scroll-to-top:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    /* Estilos para el menú hamburguesa en móviles */
+    @media (max-width: 767px) {
+  #menu {
+    position: absolute;
+    top: 100%; /* Posiciona el menú debajo del navbar */
+    right: 0;
+    background-color: #065F46;
+    width: 100%;
+    z-index: 1000;
+    display: none; /* Ocultar por defecto */
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+    padding: 1rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  #menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+  }
+  #menu ul li {
+    width: auto; /* Ajusta el ancho al contenido */
+    padding: 1rem 0; /* Espaciado vertical */
+    text-align: center; /* Centra el texto dentro del li */
+  }
+  #menu ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    display: inline-block; /* Permite que el texto se centre correctamente */
+  }
+  #menu ul li a:hover {
+    color: #6EE7B7;
+  }
+  #menu.active {
+    display: flex;
+  }
+}
+  </style>
+</head>
+<body class="font-sans text-gray-900 bg-white">
+  <!-- Navbar -->
+  <nav class="bg-[#065F46] py-4 px-6 flex justify-between items-center relative">
+    <div class="flex items-center">
+      <a href="index.html">
+        <img src="logoblanco.png" alt="Logo de EmpreX" class="h-8 mr-4">
+      </a>
+      <a href="index.html" class="text-white font-bold text-xl">EmpreX</a>
+    </div>
+    <!-- Menú hamburguesa para móviles -->
+    <button id="menu-toggle" class="text-white focus:outline-none md:hidden">
+      <i class="fas fa-bars text-2xl"></i>
+    </button>
+    <!-- Menú de navegación -->
+    <ul id="menu" class="hidden md:flex space-x-6 text-white">
+      <li><a href="index.html" class="hover:text-[#6EE7B7]">Inicio</a></li>
+      <li><a href="caracteristicas.html" class="hover:text-[#6EE7B7]">Características</a></li>
+      <li><a href="historia.html" class="hover:text-[#6EE7B7]">Historia</a></li>
+      <li><a href="#footer" class="hover:text-[#6EE7B7]">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-cover bg-center bg-no-repeat" style="background-image: url('banner.jpg');">
+    <div class="bg-black bg-opacity-50 py-16 md:py-24 px-4 md:px-16">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-3xl md:text-6xl font-bold text-white mb-4">Optimiza tu Negocio con EmpreX</h1>
+        <p class="text-base md:text-xl text-gray-300 mb-8">Gestiona sin esfuerzo el inventario, facturación, compras, seguimiento de activos e informes con nuestra solución empresarial todo en uno.</p>
+        <div class="flex justify-center">
+          <a href="mailto:emprex.dev@gmail.com?subject=Solicitar%20Prueba%20de%207%20Días&body=Hola%20EmpreX,%20me%20gustaría%20solicitar%20la%20prueba%20de%207%20días." id="btn-main" class="btn-explosive bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-full relative overflow-hidden">
+            Comenzar Gratis
+            <span class="particle-container"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="bg-gray-100 py-12 md:py-20">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8 md:mb-12">Características Principales</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+        <!-- Gestión de Inventario -->
+        <div class="bg-white rounded-lg shadow-lg p-4 md:p-6 flex flex-col items-center">
+          <div class="bg-green-500 p-3 md:p-4 rounded-full mb-3 md:mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-2">Gestión de Inventario</h3>
+          <p class="text-sm md:text-base text-gray-600 text-center">Controla niveles de inventario, puntos de reorden y la información de proveedores para mantener un flujo constante de productos.</p>
+        </div>
+        <!-- Facturación -->
+        <div class="bg-white rounded-lg shadow-lg p-4 md:p-6 flex flex-col items-center">
+          <div class="bg-green-500 p-3 md:p-4 rounded-full mb-3 md:mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-2">Facturación</h3>
+          <p class="text-sm md:text-base text-gray-600 text-center">Genera facturas de compra y venta y realiza un seguimiento detallado de pagos.</p>
+        </div>
+        <!-- APV -->
+        <div class="bg-white rounded-lg shadow-lg p-4 md:p-6 flex flex-col items-center">
+          <div class="bg-green-500 p-3 md:p-4 rounded-full mb-3 md:mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-2">APV (Automatización de Procesos de Venta)</h3>
+          <p class="text-sm md:text-base text-gray-600 text-center">Facilita las ventas manuales o mediante QR directamente desde el inventario, ofreciendo agilidad y precisión en las transacciones.</p>
+        </div>
+        <!-- Reportes y Análisis -->
+        <div class="bg-white rounded-lg shadow-lg p-4 md:p-6 flex flex-col items-center">
+          <div class="bg-green-500 p-3 md:p-4 rounded-full mb-3 md:mb-4">
+            <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-2">Reportes y Análisis</h3>
+          <p class="text-sm md:text-base text-gray-600 text-center">Genera reportes detallados para obtener insights clave sobre ventas, inventario, adquisiciones y más.</p>
+        </div>
+      </div>
+      <!-- Botón "Ver todas las características" -->
+      <div class="flex justify-center mt-8">
+        <a href="caracteristicas.html" class="btn-explosive bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 md:py-3 md:px-6 rounded-full">
+          Ver todas las características
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Section -->
+  <section class="bg-gray-100 py-12 md:py-16">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-8 md:mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Vea EmpreX en Acción</h2>
+        <p class="text-base md:text-lg text-gray-600">Experimente el poder de nuestra aplicación de gestión empresarial todo en uno.</p>
+      </div>
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <!-- Imágenes del carrusel -->
+          <div class="swiper-slide">
+            <img src="inventario.png" alt="Inventario de EmpreX" class="w-full h-64 md:h-96 object-cover rounded-lg">
+          </div>
+          <div class="swiper-slide">
+            <img src="facturas.png" alt="Facturas de EmpreX" class="w-full h-64 md:h-96 object-cover rounded-lg">
+          </div>
+          <div class="swiper-slide">
+            <img src="reportes.png" alt="Reportes de EmpreX" class="w-full h-64 md:h-96 object-cover rounded-lg">
+          </div>
+          <div class="swiper-slide">
+            <img src="apv.png" alt="APV de EmpreX" class="w-full h-64 md:h-96 object-cover rounded-lg">
+          </div>
+        </div>
+        <!-- Botones de navegación -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <!-- Paginación -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+<section class="bg-gray-100 py-12 md:py-16">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">Lo Que Dicen Nuestros Clientes</h2>
+    <div class="bg-white p-6 md:p-8 rounded-lg shadow-md max-w-2xl mx-auto text-center">
+      <p class="text-lg md:text-xl text-gray-700 mb-6">"EmpreX ha revolucionado la forma en que gestionamos nuestras operaciones comerciales. Ahora todo es más eficiente y organizado."</p>
+      <div class="flex items-center justify-center">
+        <img src="client-avatar.jpg" alt="Avatar del Cliente" class="w-12 h-12 md:w-16 md:h-16 rounded-full mr-4">
+        <div>
+          <h3 class="text-lg md:text-xl font-semibold text-gray-800">Greisy Alonso García</h3>
+          <p class="text-sm md:text-base text-gray-600">Administrador, California Café</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Footer -->
+<footer id="footer" class="bg-gray-900 py-8 md:py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+      <!-- About EmpreX -->
+      <div>
+        <h4 class="text-white font-bold mb-2 md:mb-4">EmpreX</h4>
+        <p class="text-sm md:text-base text-gray-400">Optimiza tu negocio con nuestra aplicación integral de gestión.</p>
+        <div class="mt-4">
+          <!-- Íconos de redes sociales comentados -->
+          <!--
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-instagram"></i>
+          </a>
+          -->
+          <!-- Nuevo ícono de WhatsApp -->
+          <a href="https://wa.me/5354588422" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white mr-4">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="mailto:emprex.dev@gmail.com" class="text-gray-400 hover:text-white">
+            <i class="fas fa-envelope"></i>
+          </a>
+        </div>
+      </div>
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-white font-bold mb-2 md:mb-4">Enlaces Rápidos</h4>
+        <ul class="text-gray-400">
+          <li class="mb-2"><a href="index.html" class="hover:text-white">Inicio</a></li>
+          <li class="mb-2"><a href="caracteristicas.html" class="hover:text-white">Características</a></li>
+          <li class="mb-2"><a href="historia.html" class="hover:text-white">Historia</a></li>
+        </ul>
+      </div>
+      <!-- Resources -->
+      <div>
+        <h4 class="text-white font-bold mb-2 md:mb-4">Recursos</h4>
+        <ul class="text-gray-400">
+          <li class="mb-2"><a href="documentacion.html" class="hover:text-white">Documentación</a></li>
+          <li class="mb-2"><a href="preguntasfrecuentes.html" class="hover:text-white">Preguntas Frecuentes</a></li>
+          <li class="mb-2"><a href="soporte.html" class="hover:text-white">Soporte</a></li>
+        </ul>
+      </div>
+      <!-- Newsletter -->
+      <!--
+      <div>
+        <h4 class="text-white font-bold mb-2 md:mb-4">Suscríbete</h4>
+        <p class="text-sm md:text-base text-gray-400 mb-4">Mantente al día con nuestras últimas novedades y actualizaciones.</p>
+        <form>
+          <input type="email" placeholder="Ingresa tu correo" class="bg-gray-800 text-gray-400 py-2 px-4 rounded-l-lg focus:outline-none">
+          <button class="bg-green-500 text-white py-2 px-4 rounded-r-lg hover:bg-green-600">Suscribirse</button>
+        </form>
+      </div>
+      -->
+    </div>
+    <div class="mt-8 border-t border-gray-700 pt-8">
+      <p class="text-sm md:text-base text-gray-400 text-center">© 2024 EmpreX. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+  <!-- Botón "Ir arriba" -->
+  <button id="scroll-to-top" class="fixed bottom-8 right-8 bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 opacity-0 hidden transform hover:scale-110">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    // Inicializar Swiper
+    const swiper = new Swiper('.swiper', {
+      loop: true,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      effect: 'fade',
+      fadeEffect: {
+        crossFade: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+
+    // Animación de partículas
+    document.getElementById('btn-main').addEventListener('click', function (e) {
+  e.preventDefault(); // Previene el comportamiento predeterminado del enlace
+
+  const email = 'emprex.dev@gmail.com';
+  const subject = 'Solicitar Prueba de 7 Días';
+  const body = 'Hola EmpreX, me gustaría solicitar la prueba de 7 días.';
+  const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+  window.location.href = mailtoLink;
+
+  // Animación de partículas (opcional)
+  const button = e.currentTarget;
+  const particleContainer = button.querySelector('.particle-container');
+
+  // Limpiar partículas anteriores
+  particleContainer.innerHTML = '';
+
+  // Crear partículas dinámicas
+  for (let i = 0; i < 20; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+
+    // Calcular posiciones aleatorias para el movimiento
+    const moveX = (Math.random() - 0.5) * 200; // Rango de -100 a 100
+    const moveY = (Math.random() - 0.5) * 200;
+
+    // Aplicar posiciones como variables CSS
+    particle.style.setProperty('--move-x', `${moveX}px`);
+    particle.style.setProperty('--move-y', `${moveY}px`);
+
+    // Colores vibrantes
+    particle.style.background = `hsl(${Math.random() * 360}, 70%, 70%)`;
+
+    particleContainer.appendChild(particle);
+  }
+
+  // Reiniciar animación después de 1 segundo
+  setTimeout(() => {
+    particleContainer.innerHTML = '';
+  }, 1000);
+});
+    // Menú hamburguesa
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('active');
+    });
+
+    // Funcionalidad del botón "Ir arriba"
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollToTopButton.classList.remove('hidden');
+        scrollToTopButton.classList.remove('opacity-0');
+      } else {
+        scrollToTopButton.classList.add('opacity-0');
+        setTimeout(() => {
+          scrollToTopButton.classList.add('hidden');
+        }, 300); // Espera a que termine la transición de opacidad
+      }
+    });
+
+    scrollToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
+</body>
+</html>

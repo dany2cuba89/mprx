@@ -1,0 +1,13 @@
+# Dependencias
+node_modules/
+test/
+
+# Archivos de entorno
+.env
+.npmrc
+
+# Carpeta de construcción
+build/
+
+# Archivos del sistema
+.DS_Store

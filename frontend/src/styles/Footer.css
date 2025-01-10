@@ -1,0 +1,22 @@
+.footer {
+  background-color: #000000; /* Color negro */
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 14px;
+  width: 100%;
+  position: relative; /* Cambiado de fixed a relative */
+  margin-top: auto; /* Para mantenerlo al final del contenido */
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 15px 0; /* Reducimos el padding en pantallas pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 10px 0; /* Reducimos aún más el padding en pantallas muy pequeñas */
+  }
+}
